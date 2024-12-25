@@ -1,0 +1,1313 @@
+---------------- 🕓 🕗 🕛 ----------------
+    johnkind — 28.06.2024 14:11
+    InediaInfectedAI v1.14
+    The mod has been updated.
+---------------- 🕓 🕗 🕛 ----------------
+☑️ 1) In the parameter "Zombies.DamageToZombieWeaponsMultipliers", the ability to specify not only weapons but also ammo has been added, allowing for more flexible configuration of damage to zombies.
+For example, you can adjust the damage for a specific bullet or a specific type of attack, such as fist attacks regardless of the item held in hand.
+More details can be found here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesdamagetozombieweaponsmultipliers
+☑️ 2) The vanilla mechanic for irritating the infected by officers has been disabled.
+Prior to this change, it completely ignored the Inedia-mechanic, and officers always attracted the infected upon transitioning to the ALERTED state.
+However, if you want to bring this mechanic back, you can read about how to do it here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesscreamhandlerisactive
+
+Additionally, the default configuration parameter "Zombies.ScreamAttractsZombiesInRadius" for officers was set to "100" meters and the chance of a scream ("Zombies.ScreamChancePercent") is increased from 25% to 50%.
+☑️ 3) Fixed a bug where the infected would remain in a crouching position after jumping over a fence and would not exit this position unless hit.
+Also fixed a conflict with the vanilla mechanics, which caused the infected to loop constantly, triggering the fence jumping animation.
+☑️ 4) Added the ability to influence the degree of damage inflicted on player clothing by projectiles, but due to implementation specifics, this is done through a modification of config.cpp and applies universally to all projectiles:
+https://github.com/ysaroka/InediaInfectedAI/wiki/FAQ#how-to-change-the-damage-of-players-clothing-by-projectiles-thrown-by-infected-and-players
+☑️ 5) Due to the fact that after one of the DayZ updates the ability to adjust the relationships between predators and infected through the method ZombieBase.CanBeTargetedByAI(...) disappeared, it was decided to completely remove the predator-infected relationship mechanic.
+Now they are always friendly towards each other, i.e., the vanilla mechanic is used.
+Accordingly, the "Zombies.AttackAnimalsWolfs" and "Zombies.AttackAnimalsBears" parameters have been removed and are no longer relevant.
+If you need to make the infected and predators enemies, this can only be done by modifying config.cpp. For this purpose, you can use a mod that makes this modification, such as the "Zombies vs Wolves" server mod:
+https://steamcommunity.com/sharedfiles/filedetails/?id=2026455681
+☑️ 6) The "Zombies.ResistContaminatedEffect" parameter can now be configured for animals as well.
+If you already have animals for which protection from contaminated zones is configured via scripts, I recommend double-checking this functionality.
+If, for some reason, your animals lose their protection against contaminated zones, you can disable the "Zombies.ResistContaminatedEffectHandlerIsActive" parameter for them, thereby restoring your mechanics.
+Also, when using parameter "Zombies.ResistContaminatedEffect", it's important to remember certain limitations outlined here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesresistcontaminatedeffect
+☑️ 7) Added support for the "DayZ-Dog" modification.
+Dogs no longer bleed out, and the interaction between dogs and infected is entirely managed by the "DayZ-Dog" mod.
+
+You can always check what has changed in the default configuration file, which is updated after each modification update:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+
+---------------- 🕓 🕗 🕛 ----------------
+    johnkind — 08.06.2024 13:31
+    InediaInfectedAI v1.13
+    The mod has been updated.
+---------------- 🕓 🕗 🕛 ----------------
+☑️ 1) Fixed the logic for infected reaching their search goal in search mode.
+Previously, the goal was considered reached if they approached within 2 meters of it, which prevented the infected from entering small spaces, such as balconies of buildings, as they would reach the goal point without stepping onto the balcony.
+In the revised logic, the goal is considered reached if the infected approach within 1 meter horizontally and within 2 meters vertically.
+☑️ 2) The parameters "Zombies.DamageToZombieShockToStunThresholdMelee" and "Zombies.DamageToZombieShockToStunLightHeavyAnimationThresholdMelee", responsible for configuring the stun animation for light melee attacks, have been removed.
+Due to the way the light stun animation works, its constant activation caused infected to stop attacking the player, allowing for exploitation by killing infected of any difficulty without harm.
+Now, light melee attacks use the fully vanilla stun logic.
+☑️ 3) With the release of DayZ 1.25, the vanilla sounds of opening and closing doors started to attract infected very effectively within a radius of about 20 meters.
+However, no option was provided for players to open doors quietly.
+Therefore, it was decided to disable the vanilla mechanic of infected being irritated by door noise by default in this mod.
+If for some reason you want to enable it again, you can do so using the parameter "Players.DisableVanillaDoorNoiseSystem":
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playersdisablevanilladoornoisesystem
+☑️ 4) Added the influence of Syberia "Stealth" skill on the noise made by players when jumping off obstacles.
+Thus, players with upgraded stealth will land more quietly.
+☑️ 5) Now limbs injury is correctly handled for the bots from the "DayZ-Expansion-AI" mod. Previously, they could take injury, but it would not heal over time.
+☑️ 6) The bug has been fixed where the functionality allowing an infected to exit a stuck state was triggered during an animation.
+This caused players to take damage while the infected was, for instance, in a stun animation.
+☑️ 7) Fixed a bug where the bleeding visual effect for infected did not stop 20-40 seconds after death.
+☑️ 8) Fixed an error:
+NULL pointer to instance when trying to access variable 'ScreamHandlerIsActive' (Parent instance is null)
+Function: 'HandleMindStateChange'
+Stack trace:
+InediaInfectedAI/scripts/4_World/InediaInfectedAI/entities/creatures/infected/zombiebase.c:1916
+☑️ 9) The errors occurring in the admin logs of "VPPAdminTools" has been fixed:
+NULL pointer to instance
+Class:      'PluginAdminLog'
+Function: 'PlayerHitBy'
+Stack trace:
+VPPAdminTools/4_World/vppadmintools\plugins\pluginbase\pluginadminlog.c:80
+scripts/4_World/entities/manbase/playerbase.c:954
+InediaInfectedAI/scripts/4_World/inediainfectedai\entities\manbase\playerbase.c:695
+You can always check what has changed in the default configuration file, which is updated after each modification update:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+
+---------------- 🕓 🕗 🕛 ----------------
+    johnkind — 28.05.2024 13:56
+    InediaInfectedAI v1.12
+    The mod has been updated.
+---------------- 🕓 🕗 🕛 ----------------
+☑️ 1) Significant performance improvement + elimination of server freezes that occurred in large cities when spawning a large number of infected simultaneously.
+The vanilla Object.IsKindOf() method turned out to be rather slow, so it has been wrapped in a caching wrapper, which should improve performance.
+Added a small random delay to initialize the infected config from 0 to 1 second, thus excluding simultaneous initialization of multiple configs when a large number of infected are spawned and spreading it over time.
+☑️ 2) Now the infected can hear when the player jumps over or off obstacles.
+The noise depends on the height of the fall and ranges from 0 to 30 meters.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactplayerfalldaynoise
+☑️ 3) Changes to debuffs when a player receives head damage:
+The duration of blurred vision upon being stunned has been increased to 10 seconds, and the duration of slowdown has been increased to 20 seconds.
+However, stunning is no longer activated if the incoming shock-pain damage is less than 5 HP. If it exceeds this threshold, the duration of blurred vision and slowdown is calculated based on the damage received.
+Therefore, when wearing a helmet and mask, the character may either not get stunned at all or experience a very short duration of it.
+Meanwhile, a character without a helmet will experience prolonged stun and slowdown durations.
+☑️ 4) Added inertia effect during infected stop phases in search mode.
+Now, when the infected is close to reaching the current search target point, it will slow down, thereby eliminating abrupt animation jerks upon sudden stops at the target point.
+☑️ 5) The logic of block penetration has been changed.
+Now, when parameter "Zombies.DamageToPlayerHandlerIsActive" is disabled, block penetration will not occur, and consequently, receiving pain in the block and parameters "Zombies.PainToPlayer*InBlockMultiplier" will not work.
+The influence on the appearance of block piercing animation from many other parameters, such as "Zombies.DamageToPlayerInBlockStaminaPercent", "Zombies.DamageToPlayerInBlockBloodPercent", "Zombies.StunToPlayerInBlockChancePercent", "Zombies.PainToPlayerArmsInBlockDisarmMultiplier", "Zombies.DiseasesToPlayerAgents" has also been removed, since block piercing animation is not required for these mechanics to work.
+
+You can review the new block penetration logic here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/FAQ#infected-deal-damage-through-blocking-how-can-this-be-configured
+☑️ 6) Now the mechanics of ranged attacks by infected (parameter "Zombies.RangeAttacksHandlerIsActive") no longer penetrate the player's block if any damage to the block is disabled.
+☑️ 7) Now infected can knock off a splint from a player if they hit the leg, and break the leg again. Previously, a character with a splint was immune to fractures.
+☑️ 8) Vanilla infected don't attack the player's head, but in this modification, they were allowed to do so.
+However, it was not taken into account that when the health of the vanilla head zone drops to zero, the character dies.
+Therefore, a fix was implemented, restoring the health of the vanilla head zone to maximum after each hit, thus preventing such player deaths.
+☑️ 9) Now the modification fully supports "Polaris" and "Methadone" from "AdditionalMedicSupplies".
+☑️ 10) Now the "Stealth" skill from the "Syberia Project" affects the Inedia-mechanics of irritating infected by the noise of footsteps.
+There are currently no settings available to influence the range of the irritation radius, all parameters are hardcoded into the modification and cannot be changed.
+☑️ 11) Added methods "InediaInfectedAI_Restrictions.PainSystem_PainkillersEffectIsActive(...)" and "InediaInfectedAI_Restrictions.PainSystem_MorphineEffectIsActive(...)" that, when overridden, allow any status or medicine affecting the player to have the effect of painkillers or morphine.
+☑️ 12) In the default configuration, the infected "ZmbF_ClerkFat_Base" has been added to the "city" group, which was absent in any of the groups, hence it had no settings, for instance, it didn't throw projectiles.
+You can always check what has changed in the default configuration file, which is updated after each modification update:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+
+---------------- 🕓 🕗 🕛 ----------------
+    johnkind — 05.05.2024 18:01
+    InediaInfectedAI
+    Server periodic freezes solved + Experimental version
+---------------- 🕓 🕗 🕛 ----------------
+The issue of periodic server freezes that I've been trying to solve for months has been resolved.
+In attempting to address it, many unrelated mechanics were optimized as a result 🙂
+The freezes occurred when a large number of infected spawned simultaneously. This could often be observed when driving into a city without players, triggering the simultaneous spawn of a large number of infected.
+The freezes occurred during Inedia-config initialization due to frequent use of the vanilla method Object.IsKindOf(), which, as it turned out, is quite slow.
+
+I couldn't abandon the use of the Object.IsKindOf() method, otherwise, I would have to abandon support for base classes in the Inedia-config. So, I wrapped it in my method that caches the result, thereby speeding up the loading of the config hundreds of times. Also, I added a small random delay to initialize the infected Inedia-config from 0 to 1 second, thus excluding simultaneous initialization of multiple configs when a large number of infected are spawned and spreading it over time.
+
+As a result, there are no more freezes, and everything works perfectly.
+But replacing the method that was used everywhere, as well as delayed loading of the config, theoretically can create some problems, nullpointers in crash logs may appear due to the absence of the config, as it is initialized a bit later, perhaps some other issues.
+
+I'm 90% sure that no problems will arise, but there's always that 10%, so I can't add this critical update to the current mod until it's thoroughly tested.
+And for its testing, I created an experimental version:
+https://steamcommunity.com/sharedfiles/filedetails/?id=3239329124
+If you have the time and desire to check all mechanics, as this change could affect anything, it's advisable to do so.
+
+Also, if you were aware of this issue but did not associate it with this mod, you can address it by temporarily switching to the experimental version, as server wipe is no longer required upon connecting the mod.
+
+In 1-2 months, after fixing any potential issues, or if there are no problems or reports of any problems in the experimental version, I will merge it with the current one.
+
+---------------- 🕓 🕗 🕛 ----------------
+    johnkind — 03.05.2024 13:14
+    InediaInfectedAI v1.11
+    The mod has been updated.
+---------------- 🕓 🕗 🕛 ----------------
+☑️ 1) Added admin command \ireload
+With this command, you can reload the game configuration file (InediaInfectedAIConfig.json) without restarting the server.
+That is, after making changes to the configuration file, it is not necessary to restart the server, it is sufficient to execute this command.
+If there are errors in the configuration file after reloading, the default configuration file will be used, and a corresponding warning will be displayed in the in-game chat.
+Also, now if an error is present in the configuration file, upon entering the game, the administrator will be issued a corresponding message.
+The modification configuration will now become much easier!
+
+Due to this change, the parameter "AdminsSteamIds" has been removed from the mod configuration and moved to a separate configuration file that will be used by all Inedia mods.
+Here you can read where this file is located and how to obtain administrator privileges:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#admin-privileges-and-commands
+☑️ 2) Significant changes in the functionality of infected speed control:
+The ability to control the speed of infected in CALM mode has been added, for which parameter "Zombies.SpeedLimitInCalmMode" have been introduced.
+Added parameters "Zombies.SpeedMinimumIn*Mode", allowing to specify the minimum value of infected speed in various modes:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesspeedminimumincalmmode
+    Regarding the CALM mode. As I mentioned before, the vanilla zombie control script really dislikes speed overrides, so even the slightest increase in speed would cause infected to get stuck on any obstacle. Therefore, a stuck handler was added for this mode. That is, now, if the speed of an infected in CALM mode is changed and they get stuck, the override speed will be disabled, and they will switch to a fully vanilla speed mode for 3 seconds. I'm not sure if this could cause any issues, but despite all these workarounds, it seems to have turned out quite well.
+Added parameters "Zombies.SpeedMultiplierIn*" allowing to configure the speed multiplier for infected. Thus, there is now the possibility to make them both very fast and very slow, disregarding vanilla restrictions. But this method has its costs, read more about them in the parameter description:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesspeedmultiplierincalmmode
+Added the "Zombies.SizeSpeedMultiplierScalingIsActive" parameter, which enables the influence of the infected size on the speed multiplier (by default, the parameter is enabled). Thus, the speed of the infected will now correspond to their size:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiessizespeedmultiplierscalingisactive
+Previously, there were occasional situations where infected would become irritated by something but wouldn't enter the search mode because there was no target. For example, when bullets were fired from a silencer and fell, or in the case of limiting the activation of the search mode by the parameter "Zombies.ReactVanillaMindstateChange". In such cases, the infected encountered a situation where their speed was not controlled because they were neither in search mode nor in chase mode.
+This has now been corrected, and in the event an infected encounters such situations, the speed handler will consider them to be in search mode and apply the speed multipliers corresponding to the search mode.
+☑️ 3) Added parameter "Zombies.DamageToZombieShockToStunCumulativeDamage", allowing to activate cumulative shock damage, which is used to trigger the zombie stun animation.
+By default, the parameter is enabled, meaning that cumulative shock damage from all hits that occurred within the last 200 milliseconds will be used to trigger the stun animation, instead of just the last hit.
+This is necessary for weapons that inflict small damage with a single bullet to have a chance to stun the infected if they inflict damage with multiple bullets within a unit of time.
+For example, when firing a shotgun with buckshot, shock damage will be determined for all buckshot pellets, and therefore when firing a shotgun from close range, the infected will almost always be stunned.
+The same applies to rapid-fire submachine guns, such as the MP5. The infected will not be stunned if you shoot with a single bullet. However, if you hold down the trigger and hit more than 2 bullets within 200 milliseconds, the infected will be stunned.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesdamagetozombieshocktostuncumulativedamage
+☑️ 4) The new parameter "Zombies.DamageToZombieShockToStunLightHeavyAnimationThresholdMeleeHeavy" has been added, allowing configuration of the stun effect on infected from heavy melee attacks (those performed by the player swinging).
+By default, it is set to "0", meaning that all heavy melee attacks will stun infected.
+Consequently, the default value of parameter "Zombies.DamageToZombieShockToStunLightHeavyAnimationThresholdMelee" has been changed to "100", as I believe regular melee attacks should not trigger heavy stun animations.
+☑️ 5) Since the mechanics of stunning infected in this mod currently include vanilla mechanics but also add some features not present in vanilla mechanics, such as cumulative shock damage, it was decided to activate it in the default configuration by default: "Zombies.DamageToZombieShockToStunHandlerIsActive" => 1.
+Naturally, this will not affect current configurations.
+☑️ 6) For agents configured in parameter "Zombies.DiseasesToPlayerAgents", new parameters "AddChanceInBlock" and "AddAmountInBlock" have been added, allowing to specify the chance of receiving agents and the amount of agents during zombie attacks while the player is blocking.
+Parameter "IgnoreBlock" has been deprecated and is no longer used.
+Those who used it are advised to revise their configurations using the new parameters "AddChanceInBlock" and "AddAmountInBlock".
+If this is not done, the default values of "AddChanceInBlock"/"AddAmountInBlock", which is "0", will be used, meaning agents will not be transmitted during zombie attacks while the player is blocking.
+☑️ 7) The chance of a player being hit in the head by a creature has been increased from 10% to 15%.
+Fighting without a helmet will now become slightly more challenging, as head damage entails increased shock damage.
+However, blocking attacks still provides protection against head damage and redirects it to other parts of the body.
+☑️ 8) The damage multiplier in the infected bleeding rate calculation formula has been increased from "0.3" to "0.5" and a dependency on blood damage is added to the formula. Consequently, the list of weapons capable of causing lethal bleeding has expanded.
+Additionally, the default value of parameter "Zombies.BloodLossRateMaxMl" has been changed from "50" to "60". Thus, infected will die slightly faster from blood loss with sufficient damage.
+
+The addition of a dependency on blood damage allowed for accounting for the armor of the infected when causing bleeding. That is, it will be problematic to cause bleeding to an infected wearing body armor by shooting the body, or shooting the head while they're wearing a helmet.
+☑️ 9) Many changes have been made to the character limbs injury system in falls.
+Now leg injury is determined by the shock damage received by the character, meaning that even a slight fall can result in minor leg damage. However, the chance of a fracture only arises when receiving more than 30 shock damage, and it equals the amount of shock damage received.
+  Thus, the chance of a fracture will be nearly 100% in falls from great heights, while the chance will be small in falls from moderate heights.
+Now, if a player receives more than 30% shock damage upon falling, their arms receive random shock damage ranging from zero to the shock damage received by the legs.
+Now, if a player loses consciousness upon falling, besides their legs, all other limbs receive random shock damage ranging from zero to the shock damage received by the legs.
+Also, a flaw has been fixed that allowed a player with a splint applied to jump from any height without fracturing.
+☑️ 10) Now pain from the injured legs does not drop below 80% if a fracture is active.
+☑️ 11) The frequency of infected head-turning has been slightly increased, allowing them to better detect players.
+☑️ 12) All admin commands \iiai* have been renamed to \i* for faster use.
+The command \iiaigm has been removed, and instead, two commands are now available: \igm and \ihide, allowing to activate/deactivate invincibility mode (the character does not receive damage) and hidden mode (creatures do not react to the character) separately.
+The command for repairing equipment \iiaihealeq has been renamed to \irep.
+Also new test admin commands \iammo, \icar, \izmb, \iplayer, \iwolf, \ibear, \iclear have been added.
+Details:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#admin-privileges-and-commands
+☑️ 13) Fixes:
+Fixed the logic of damage inflicted by infected, animals, and projectiles, which previously prevented entities from causing damage if they were more than 3 meters away from the player.
+  Consequently, long-range damage introduced by the long-range damage mechanic (parameters "Zombies.RangeAttacksHandler*") now functions correctly and is not limited to 3 meters.
+The ability to inflict damage on oneself with a projectile has been disabled because collision detection was triggering on certain modded items upon throw, causing the player to immediately take damage from the item they had just thrown.
+The error causing infected not to die from blood loss when they had a high protection multiplier has been fixed.
+The error has been fixed, which caused the door destruction mechanic not to work due to the disabled "Players.QuietDoorOpeningMechanicIsActive" parameter.
+The flaw has been fixed, which caused rubber bullet damage to ignore the defense multipliers of the infected, killing them regardless of their protection after several shots. Now, the modification itself handles situations where shock damage is converted into health damage, and returning to vanilla mechanics is only possible by disabling parameter "Zombies.DamageToZombieHandlerIsActive".
+The bug causing random limb damage to the player upon falling from a height has been fixed, it now only affects the legs.
+Fixed (hopefully) the animation conflict between the stun and projectile throw animations. Probably, due to this conflict, occasional lags occurred when dealing damage to infected.
+
+You can view all the aforementioned changes in the default configuration file, which is updated after each modification update:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+
+---------------- 🕓 🕗 🕛 ----------------
+    johnkind — 20.04.2024 13:07
+    InediaInfectedAI v1.10
+    The mod has been updated.
+---------------- 🕓 🕗 🕛 ----------------
+☑️ 1) Helicopters from "DayZ-Expansion-Vehicles" mod did not attract infected with the noise of rotating blades, as the CarScript.EngineIsOn() method did not work for them, as well as methods for obtaining RPM.
+Now this is taken into account, and engine activity and RPM are determined based on rotor rotation.
+Be cautious, Expansion helicopters now attract infected!
+☑️ 2) Infected now attack helicopters from the "DayZ-Expansion-Vehicles" mod, including using projectiles if the helicopter is within range of the projectile.
+Now low-altitude flights will become less safe.
+In the default configuration, "Zombies.AttackCarElementsMultiplierByCarClassId" damage configurations for helicopters have been added. The same has been done for expansion cars.
+
+You can always check what has changed in the default configuration file, which is updated after each modification update:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+☑️ 3) Now, if a player is involved in an accident on any type of vehicle, they will receive limb injuries.
+☑️ 4) Now, when colliding with a car, players receive limb injuries.
+☑️ 5) Now projectiles damage the player's clothing.
+Unfortunately, it cannot be configured, as the vanilla clothing damage mechanics are based on the "Ammo" that the projectile hits with.
+And all Inedia projectiles use the same "Ammo" - "InediaInfectedAI_ThrowingProjectile".
+I don't have time to implement either a clothing damage system or functionality that uses different "Ammo" for different projectiles.
+Thus, all Inedia projectiles will damage the player's clothing equally.
+☑️ 6) Now, when receiving damage from infected or animals - with a certain probability and under specific conditions, players may acquire agents of various diseases.
+Уou can configure which agents are transmitted, the amount of agents transmitted, the transmission probability, and much more.
+Or you can completely disable this mechanic by setting parameter Zombies.DiseasesToPlayerHandlerIsActive to "0".
+For further details, refer to the parameter descriptions:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesdiseasestoplayerhandlerisactive
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesdiseasestoplayeragents
+
+This mechanic is enabled by default, but it will not affect existing configs, meaning in the current configs, it will be disabled because the agents are only configured for groups initialized upon creating the configuration file.
+Therefore, if you want to add this mechanic to an existing config, you need to refer to the default configuration file, which shows how to configure the above-mentioned parameters:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+☑️ 7) Added the parameters to adjust the blood damage inflicted by zombies on the player.
+By default, these parameters are set to "0", meaning blood damage is disabled.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesdamagetoplayerbloodpercent
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesdamagetoplayerinblockbloodpercent
+
+Also, a parameter "Parameters.TargetBloodDamage" has been added for projectiles, allowing to adjust blood damage. Naturally, this damage is disabled by default (the default value of the parameter is "0").
+☑️ 8) Added parameter "Zombies.DamageToZombieShockToStunFromButtstockHit" allowing to configure the stun animation of the infected upon receiving damage from a weapon buttstock:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesdamagetozombieshocktostunfrombuttstockhit
+☑️ 9) Added parameter "Players.QuietDoorOpeningMechanicDisabledForOpening" allowing to disable quiet door opening function while keeping quiet door closing.
+By default, this parameter is enabled, meaning that in older configurations, quiet door opening will cease to function, while quiet door closing will remain active.
+If you wish to restore quiet door opening functionality, set this parameter to "0".
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playersquietdooropeningmechanicdisabledforopening
+☑️ 10) By default, crawling infected are not allowed to break doors.
+The parameter "Zombies.BreakingDoorsCrawlersChanceMultiplier" has been added, allowing to set the multiplier for the chance of door-breaking for crawling infected.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesbreakingdoorscrawlerschancemultiplier
+☑️ 11) The mechanics of zombie escape from a stuck position have been reworked.
+There will no longer be situations where zombies jump onto obstacles towards the player due to this mechanic when up-jump handler is disabled.
+☑️ 12) The collision functionality between jumping zombies and the player has been significantly reworked and optimized.
+Now, situations where an infected deals damage to the player while standing nearby without performing any attacks will occur much less frequently.
+☑️ 13) Now, infected are prohibited from jumping on each other, as this often led to situations where they would fall into objects they couldn't jump high enough onto, such as closed containers.
+As a result, it was quite easy to gather all the infected inside such a container and leave them there.
+Fixing this through some other means was not feasible, as the game engine does not register collisions of the infected with such objects, thus there was no way to determine when they should be stopped in jump.
+☑️ 14) The \iiaiheal command now removes agents, bleedings, broken legs, bloody hands, arrows, and also adds a temperature boost.
+Also, several more commands have been added to facilitate testing irritants: \iiaihealeq \iiaieq \iiaiday \iiainight \iiairain
+More details here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#adminssteamids
+☑️ 15) Rebalance default parameters and mechanics:
+The amount of shock inflicted by a projectile with unspecified exact shock damage but calculated based on the projectile's weight has been doubled, meaning the maximum shock damage inflicted by such a projectile is now 60 instead of 30.
+The default multiplier for noise suppression inside the building (parameter "SoundInHouseMultiplier") has been changed from "0.6" to "0.5".
+The default range of the door opener irritant has been changed from 20 meters to 15 meters.
+Since only quiet door closing remains enabled by default, and this action itself is rare, the duration of quiet door closing (parameter "Players.QuietDoorOpeningMechanicSeconds") has been increased from "2" to "3" seconds.
+
+You can view all the aforementioned changes in the default configuration file, which is updated after each modification update:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+☑️ 16) Fixes:
+An issue has been fixed where the parameter "Zombies.ThrowingProjectilesHandlerDamageMultiplier" was not working for players ("SurvivorBase").
+Accordingly, default values for "SurvivorBase" for parameters "Zombies.ThrowingProjectilesHandlerDamageMultiplier" and "Zombies.ThrowingProjectilesHandlerVehiclesDamageMultiplier" have been added to the default configuration.
+Fixed incorrect logic of the beacon for disabling zombie search mode when the player is unconscious. The beacon stopped working if another player was nearby in any state (dead, unconscious), whereas it should only react this way to conscious living players.
+Another optimization of the scream functionality has been conducted. Due to a conflict between the scream animation and the turning of the infected, the scream animation still occasionally failed to play. This issue has now been completely resolved.
+The jump command has also been slightly optimized. Now jumps will not be interrupted by other animations.
+The functionality of rotating infected in search mode has been significantly revamped and optimized. Now they rotate much smoother.
+
+---------------- 🕓 🕗 🕛 ----------------
+    johnkind — 09.04.2024 12:24
+    InediaInfectedAI v1.9
+    The mod has been updated.
+---------------- 🕓 🕗 🕛 ----------------
+☑️ 1) Important change in the way player context variables are saved.
+Now, for storing user variables associated with this mod, a custom storage located in the server's "mpmissions/#mission#/storage_*/inedia/" directory is used.
+Thus, mandatory server wipe after mod installation are no longer required, and consequently, all related issues are likely to be resolved. Due to this change, current users may experience a reset of limb damage levels.
+Due to the abandonment of storing user data in the global context, there will be a shift in variables within this context, potentially causing some issues with mods that utilize this global context, such as Syberia. However, all such problems can be resolved with a server wipe, and thereafter, they will never occur again.
+Nothing can be done about this, and this fix was necessary sooner or later.
+☑️ 2) Now, at the orange level of injury to arms/torso/head, the speed reduction will not be as significant. However, a medium speed reduction is retained at red levels of injury to arms/torso/head.
+The speed reduction due to leg injuries remains unchanged.
+☑️ 3) Added parameter "Players.PainSystemIsActive", allowing to completely disable the Inedia pain system. This is required, for example, for compatibility with Syberia, where its own pain system is present.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playerspainsystemisactive
+☑️ 4) A new projectile parameter "Parameters.ThrowConditionAllowThrowingToAnimals" has been added, allowing to configure the possibility of infected throwing projectiles at animals. Consequently, a mechanic for infected throwing projectiles at animals has been implemented.
+☑️ 5) A new projectile parameter "Parameters.TargetPainMultiplier" has been added, allowing to influence the pain damage inflicted by the projectile.
+That is, now, in order to disable the pain inflicted by projectiles, it is not necessary to disable the projectile's shock damage, it is sufficient to simply set "Parameters.TargetPainMultiplier" to "0".
+☑️ 6) The default value of the projectile parameter "Parameters.DestroyProjectileAfterSeconds" has been changed from "0" to "0.001", as by default the projectile should be destroyed immediately after launch, rather than upon impact with the target. This is because in the latter case, there may be situations where the projectile remains undestroyed on the server if it is in the air at the time of server restart.
+☑️ 7) In this modification, there is a mechanic that allows the infected to escape from situations when they get stuck, for example, due to a faulty navigation mesh or for some other reasons. In this case, the infected performs a jump towards the player, attempting to get out of the stuck state.
+Previously, this mechanic could not be disabled. However, now a parameter "Zombies.StuckJumpHandlerIsActive" has been added, allowing this to be done if necessary.
+☑️ 8) Added support for modification "AdditionalMedicSupplies".
+Now the effect of "Polaris" pills of this modification affects injured limbs in the same way as vanilla painkillers.
+Now the effect of "Methadone" of this modification affects injured limbs in the same way as vanilla morphine.
+
+However, this functionality is only implemented on the side of "InediaInfectedAI" and will not work without changes on the side of "AMS".
+For some reason, the preloaded constant "AMS_AdditionalMedicSupplies" is not visible in "InediaInfectedAI", presumably due to the way it is initialized in "AMS".
+If the initialization method is changed to CfgMods -> * -> defines[], everything works correctly.
+Therefore, to make this functionality work, changes in the initialization method of the preload constant from the side of "AMS" are necessary, but I have been unable to contact the mod author to discuss this issue.
+☑️ 9) An additional animation stance was allowed in the search mode. Accordingly, they will now move in search mode at different speeds and with more variety.
+☑️ 10) A slight rebalancing of default configuration parameters:
+The parameter "Zombies.DamageToZombieHeadMeleeMultiplier" was configured for various infected protective groups ("highdef", "mediumdef", "lowdef").
+  Thus, the damage to the head with melee weapons has been reduced.
+  This was done because, based on my tests, it was quite easy to kill an infected with a single melee head hit. With practice, it became possible to do this consistently, rendering the infected no longer a significant threat.
+  Now, it is quite easy to kill infected in the head with weak defenses (village, city), and much more challenging to do so with infected with strong defenses (medics, soldiers, firefighters, etc.);
+For garbage projectiles, damage values and stun chance have been adjusted:
+"Parameters.TargetHealthDamage": 8 => 5
+"Parameters.TargetShockDamage": 16 => 20
+"Parameters.TargetStunChancePercent": 40 => 50
+This is done because the projectiles should not kill but rather cause issues (limb damage, knocking the player off obstacles, loss of consciousness).
+The maximum height of the infected's jump has been changed from "1.5" to "1.7" meters.
+
+Naturally, these changes will not affect existing configurations.
+
+You can always check what has changed in the default configuration file, which is updated after each modification update:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+☑️ 11) Fixes:
+The mechanics of extending looting to nearby players (parameters "Zombies.SearchBodyExtendLootingToPlayersInRadiusMeters" and "Players.SearchBodyExtendLootingToPlayersInRadiusMeters") have been fixed. Those who changed this value to "0" can now revert it to "30", everything should work correctly.
+Optimization of the usage of the "ref" and "autoptr" keywords in the code, which should significantly improve performance.
+Fixed freezes occurring when dealing damage to infected. The freezes occurred because the projectile throwing animation was interrupted by the vanilla animation of the infected being knocked back from the damage.
+Fix the functionality of infected head rotations. Due to the high frequency of rotations, the player's network channel was getting congested, resulting in increased ping and lag when there were many infected nearby.
+The flaw in the game configuration has been fixed, which was causing the infected "ZmbM_PolicemanSpecForce" to receive significantly less damage than it should have.
+The error has been fixed where due to torso rotation animation, the scream animation didn't always trigger, but the irritation mechanism of nearby infected still activated, resulting in a silent irritation of nearby infected.
+The error has been corrected, due to which the infected and animals did not bleed from explosions.
+The "NavMeshChernarusFixes" and "NavMeshEnochFixes" parameters have been removed from the configuration file and are no longer used.
+
+---------------- 🕓 🕗 🕛 ----------------
+    johnkind — 20.03.2024 16:17
+    InediaInfectedAI v1.8
+    The mod has been updated.
+---------------- 🕓 🕗 🕛 ----------------
+☑️ 1) Now all configuration parameters "Zombies.*" support specifying base classes. Exact class names and groups still function as before.
+An exact class name takes precedence over a base class, while a base class takes precedence over a group, and a group takes precedence over "all".
+Also, class names are now case-insensitive.
+
+As a result, the default configuration data has been significantly redesigned. Groups for all types of infected have been introduced:
+city, villagers, industrial, military, police, prisoners, firefighters, medics, hunters, fishermen, priests
+
+Groups for configuring damage and protection were also added. The aforementioned types of infected were assigned to these groups:
+lowstr, mediumstr, highstr
+lowdef, mediumdef, highdef
+
+And now infected groups support nesting!
+That is, for example, we can add groups "police" and "military" inside the "highstr" group. After that, all settings configured for the "highstr" group will also apply to the "police" and "military" groups.
+The maximum allowed nesting is 10. If exceeded, the game's crash log will display a corresponding warning about the recursion depth. This is done to prevent situations where groups loop back on themselves, for example, if in the above example, the "highstr" group is added inside the "police" group, these two groups will loop back on themselves, resulting in a crash log message with the name of the group where the looping occurred.
+☑️ 2) I am tired of numerous requests to do this, and finally, it's done. Projectiles throwing system have been implemented:
+https://www.youtube.com/watch?v=hdeVlx3xM8U
+
+Now you can make infected throw any items at players (sticks, stones, !!!power generator!!!, etc.).
+The flight of projectile items is calculated according to all ballistic laws with numerous settings for the projectiles.
+Flexible settings for damage, destruction, activation time and logic, speed, accuracy, throw chance, and projectile cooldown allow you to create projectiles for any need. Grenades, flash grenades, gas grenades, even "magical fireballs" - any ItemBase item, the possibilities are not limited.
+
+Regarding the default configuration file...
+By default, infected have two types of projectiles:
+The first type is ground garbage (sticks, stones). This projectile is infinite, but they can only throw it when the player is on an obstacle. They also throw this projectile very often.
+The second type consists of several thematic projectiles, depending on the infected locations (village, city, industrial zone, etc.). These projectiles are available only in limited quantities, with a 10% chance of throwing them and a 10-second cooldown even after an unsuccessful attempt. However, they can throw them even when the player is not on an obstacle. The damage, bleeding, or stun chance of these projectiles is determined by the type of thrown item and its weight. For example, a kitchen knife is more likely to cause bleeding when hitting a player, but it won't stun them, whereas a frying pan is more likely to stun a player without causing bleeding, whereas an axe is more likely to cause both bleeding and stun.
+These changes will not affect current configurations, as there are no lists of projectiles or bindings of projectiles to infected groups in the current configurations, they only appear at the moment of creating the configuration file. Therefore, for the projectile mechanic to work, you will need to either update the configuration or manually add projectiles and bind them to the infected.
+
+How to do this and how the projectile throwing mechanic is configured in general is described in detail here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/FAQ#how-to-configure-the-projectiles-throwing-system
+
+Also within this mechanic implemented is a nice bonus: projectiles thrown by players at infected, animals or other players now deal damage to them. To disable this mechanic, you will need to deactivate the "Zombies.ThrowingProjectilesHandlerIsActive" parameter for class "SurvivorBase".
+
+Since the projectiles throwing mechanic has been introduced, the maximum jump height in the default configuration (parameter "Zombies.UpJumpHeightMax") has been changed to 1.5 meters.
+☑️ 3) Infected in close combat have become slightly smarter!
+Now they recklessly rush only towards the player who has turned their back to them.
+However, if the player is facing them directly, the infected analyze the threat and may slow down at a certain moment, thereby dodging a powerful blow. And it's logical, as they retained the basic instincts of self-preservation and survival, just like animals.
+This mechanic will create significant problems for those accustomed to killing infected with a precise head strike as they approach, already reflexively sensing when to strike.
+Now battles will become less predictable and more intense, as even a single infected under certain circumstances can inflict damage regardless of the player's experience and level of preparation in close combat.
+Parameters have been added to specify the chance of an infected deciding to slow down, as well as the delay during which it cannot slow down after it has successfully or unsuccessfully attempted to do so:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesmeleeattacksdodgehandlerisactive
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesmeleeattacksdodgechance
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesmeleeattacksdodgecooldownseconds
+☑️ 4) Now, in search mode, infected truly "search" for their target, randomly turning their head. Thus, a previously passing infected may now randomly turn their head towards you and notice you.
+Additionally, if an infected knows the whereabouts of the target, they will always look in its direction, including upwards. As a result, situations where infected frequently lost sight of the target when it climbed onto a car or obstacle are now excluded. They will not lose sight of the target in such situations and will wait even more diligently for it to descend. This may seem like an insignificant change, but it's one of the most dangerous changes in this update. Now, escaping pursuit will be significantly more difficult.
+Unfortunately, it wasn't possible to implement such a thing for the vanilla chase mode script, as the vanilla method of changing head rotation for some reason doesn't work.
+☑️ 5) Now, if a player's arms are injured, any creature that deals damage to their arms has a small chance to knock the item out of the character's arms.
+The chance depends on the degree of arms injury, the more damaged the arms, the higher the chance of disarming.
+Default chances are set to be not very high, as this mechanic can create serious problems for the player in certain situations, such as when a creature knocks a melee or ranged weapon out of the player's arms. Furthermore, the chance of disarming only occurs if the player's arms are injured by more than 10%, otherwise, the chance is zero.
+Parameters have also been added to allow for adjusting this chance or disabling this mechanic altogether:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiespaintoplayerarmsdisarmmultiplier
+
+These parameters have been configured for various types of zombies. Details can always be found in the default configuration file, which is updated after each modification update:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+☑️ 6) Added Inedia-reaction for zombies to many irritants they previously did not react to.
+Now the infected will be very sensitive to such irritants if they fall within their range of action.
+
+This includes:
+Inedia-reaction for infected to player symptoms - coughing, sneezing, laughter, severe pain, and vomiting. The default radius is 40 meters.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactsymptomsdaynoise
+
+Inedia-reaction for infected to player speech. Whisper - 10 meters, talk - 40 meters, shout - 80 meters.
+When using the megaphone, the radius increases by 40 meters.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactvoicewhisperdaynoise
+
+Inedia-reaction to mining noise (wood chopping, stone mining). The default radius is 60 meters for light (resulting in small stones and firewood) and 80 meters for hard (resulting in large stones and logs) mining.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactmininglightdaynoise
+Inedia-reaction to the building noise produced by the player (except for building with pliers, shovel, pickaxe, or farming hoe). The default radius is 60 meters.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactbuildingdaynoise
+
+Inedia-reaction to the noise of sawing planks from a stack. The default radius is 60 meters.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactsawplanksdaynoise
+
+Inedia-reaction to the noise from the gas canister explosion. The default radius is 120 meters.
+The sensitivity of zombies to this type of irritant is regulated by the same parameter that regulates sensitivity to the noise of explosions:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactexplosiveitemnoise
+
+Inedia-reaction to the noise of the roadflare. Now the roadflare can irritate infected during the day with its noise. The default radius is 40 meters.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactroadflarenoise
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactanddestroyroadflarenoise
+☑️ 7) The mechanics of ranged attacks by infected have been introduced. By default, this mechanic is disabled.
+Typically, this is necessary to prevent situations where a player kills infected with melee attacks by climbing onto obstacles. That is, the player can reach them, but they cannot reach the player. This mechanic addresses this issue by allowing infected to reach the player in such situations.
+In this modification, there are other mechanics as well that allow infected to reach the player. For example, jumping mechanics ("Zombies.UpJumpHandlerIsActive") or projectile throwing ("Zombies.ThrowingHandlerIsActive") mechanics.
+Only use this mechanic if the aforementioned mechanics for some reason do not suit you and are disabled.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesrangeattackshandlerisactive
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesrangeattackshandlerzombieplayerdistance
+☑️ 8) Now in search mode, if the infected has a target, it will turn its head towards that target, thereby increasing the likelihood of detection. It looks quite amusing, but besides that, in my estimation, the effectiveness of detecting the target by irritated infected has tripled. That means they won't just lose the target easily when it's sitting on an obstacle, they will keep looking in its direction when exiting chase mode and re-entering it.
+Unfortunately, I couldn't add head turns during chase mode because vanilla chase mode is used, and for some reason, the vanilla method of influencing the head turn angle doesn't work.
+☑️ 9) Earlier, I didn't quite accurately emulate the damage from infected to the head, which caused many associated logic to not work.
+This has been corrected, and now they inflict head damage correctly.
+Consequently, player headgear (helmets, caps, etc.) now sustain damage from infected head damage.
+☑️ 10) The effects upon receiving heavy head damage have been modified.
+Added the effect of muffled ambient sounds when the player receives head damage, along with screen blurring while the effect persists.
+Added is the effect of significant movement slowdown for 15 seconds upon receiving a powerful blow to the head (disabled by the new parameter "Players.MovementCoordinationImpairmentWhenHeadReceivingHits").
+The irritating tinnitus sound has been significantly reduced, which, combined with the muffled sounds, makes it less bothersome.
+The head damage effect now triggers no more than once per minute.
+For those who dislike any of these effects, parameters have been added to allow disabling any of them:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playerstinnituswhenheadreceivinghits
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playersblurwhenheadreceivinghits
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playerssoundattenuationwhenheadreceivinghits
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playersmovementcoordinationimpairmentwhenheadreceivinghits
+☑️ 11) Now you can customize the percentage damage that infected inflict on irritants, including custom irritants.
+To avoid introducing new parameters for this purpose, the type of parameters Zombies.ReactAndDestroy* was changed from bool to float. Now they accept values from "0" to "1", and with their help, you can adjust the percentage damage for any irritating item. The same applies to the "Destroy" parameter for custom irritants.
+More details:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactanddestroyflashlightsvisual
+☑️ 12) Now, after searching a corpse, all players within a radius of "Zombies.SearchBodyExtendLootingToPlayersInRadiusMeters" meters from the searched corpse will not need to search it. This is logically explained by the fact that players nearby witness the search of the corpse and receive information about the items found.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiessearchbodyextendlootingtoplayersinradiusmeters
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playerssearchbodyextendlootingtoplayersinradiusmeters
+☑️ 13) Now the god mode, activated by the command \iiaigm, applies to any type of damage, including falls. Additionally, in god mode, players cannot be attacked by animals and AI bots, the player's limbs cannot be damaged, agents cannot be added to the player, and he cannot be damaged by the chemical zone.
+☑️ 14) Now the parameter "Zombies.FriendlyNPC" also works for animals, meaning animals can be befriended with NPC and AI bots.
+☑️ 15) Added parameter "Players.BleedingChanceMultiplierWhenOverPainedLimbReceivingHits", allowing to set the bleeding chance multiplier when taking damage to a severely injured limb. By default, the multiplier is set to "3".
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playersbleedingchancemultiplierwhenoverpainedlimbreceivinghits
+☑️ 16) New parameters "Zombies.ScreamCooldownSeconds" and "Zombies.ScreamNearbyInfectedSilenceSeconds" have been added, allowing to configure the cooldown after an infected scream as well as the duration for which nearby attracted infected are muted.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesscreamcooldownseconds
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesscreamnearbyinfectedsilenceseconds
+☑️ 17) After conducting several tests, it became necessary to once again perform a minor rebalance of default parameter values.
+The damage of the infected has been reduced, while their defense has been increased, as in my opinion and based on conducted tests, the most balanced infected are those that:
+Are difficult to kill through body shots, as they do not feel shock and pain, but eventually die from blood loss.
+Are very quickly killed in the head, as no matter how insensitive you are to pain - it is a physiologically critical injury. Plus, this requires a certain skill from players and still has a chance of failure.
+Do not knock the character out with a few hits but create numerous problems, debuffs, pain, fractures, which prevent the player from escaping, while other infected gather around.
+Since the block essentially amounted to abuse when facing a single infected, it was decided to change the multiplier for any damage taken while blocking to 50% of the original damage without blocking. This applies to regular damage, shock damage, pain damage, stamina damage, as well as bleeding chance. Now, the default damage while blocking is always 50% of the original damage.
+The parameter "Zombies.StunToPlayerChancePercent" has been rebalanced, now it varies for different types of infected. For example, regular urban infected will stun the player much less frequently than, for instance, military infected.
+The chance of breaking down a door now depends on the strength group of the infected: 30% for "lowstr," 40% for "mediumstr", and 50% for "highstr." These values have been increased as, according to my tests, it was quite easy to evade pursuit using multiple doors with the previous values.
+Naturally, these changes will not affect existing configurations.
+
+You can always check what has changed in the default configuration file, which is updated after each modification update:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+☑️ 18) Fixes:
+The handshake didn't function with the "sGunplay" modification as it fully intercepted the DayZPlayerImplementAiming.ProcessAimFilters() method. Thus, some workarounds had to be employed to make the hand shake work with this modification.
+Now zombie crawlers cannot attack the player in the head, except when the player is lying down. Also, crawlers now more often inflict damage to the legs rather than other parts of the body.
+Fixed the issue where the blur pain effect persisted after the character's death.
+The bug has been fixed, which was causing the character to receive hand pain when punching in the air barehanded without gloves.
+Major refactoring of the command handler, now the situation where infected animations interrupt each other, leading to the infected freezing, has been eliminated.
+For parameter "Zombies.ItemsAfterButchering", the logic for setting the quantity in the stack for ammo and magazines has been corrected.
+Corrected incorrect calculation of the chance of bleeding when taking damage while blocking.
+Minor fixes, graphical issues in icons, prevention of RPC calls without a user identifier (to prevent RPCs from being broadcast sent from NPCs), etc.
+
+---------------- 🔧 📋 🔧 ----------------
+johnkind — 25.02.2024 18:30
+InediaInfectedAI
+Added a guide for initial modification setup.
+He should simplify the modification setup for those who have installed the mod for the first time.
+Additionally, it can help quickly find the necessary configuration parameters for those who have been using it for a long time.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Configuration-guide
+---------------- 🔧 📋 🔧 ----------------
+
+---------------- 🕓 🕗 🕛 ----------------
+    johnkind — 21.02.2024 19:27
+    InediaInfectedAI v1.7
+    The mod has been updated.
+---------------- 🕓 🕗 🕛 ----------------
+☑️ 1) The pain system has been completely overhauled and is now almost a fully-fledged injury system, affecting characters from infected, animals, players, and explosions.
+Now, each character limb has a injury (pain) level ranging from 0% to 100%.
+Depending on the current injury level, specific debuffs are applied to the character.
+The injury sustained by a limb is based on shock damage, so the player's armor can effectively counteract debuffs.
+
+Since it's now a fully-fledged limb damage system, injuries persist after a player relogs. A completely damaged limb heals in about 15 minutes, so those using InediaInfectedAI in conjunction with Syberia Project may encounter issues, as another serious debuff arises without the possibility of mitigating it (painkillers, adrenaline, and morphine are disabled in Syberia Project, and InediaInfectedAI knows nothing about Syberia Project drugs, let alone those of other mods).
+Therefore, for those using Syberia Project, I recommend increasing the value of the parameter "Players.PainHealingRatePerSecondPercent" from "0.1" to "0.5", thereby accelerating limb healing and returning the debuffs to their old logic, i.e., they will be just pain debuffs that quickly dissipate.
+
+Parameters "Zombies.PainToPlayer*ChancePercent" has been removed as it no longer makes sense, as limbs now always incur damage, and damage multiplier that limbs receive can now be configured using the new parameters "Zombies.PainToPlayer*Multiplier".
+Consequently, the new parameters "Zombies.PainToPlayer*Multiplier" were configured in the default configuration for various types of infected.
+The values of these parameters for different types of infected, as well as for survivors, can always be viewed in the default configuration file:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+Overall, I've strived to make the pain system more realistic.
+Here are just a few of the introduced features:
+When a character takes damage while blocking, they won't receive head injury, instead, head injury will be redirected to other body parts;
+If a player's head is damaged to a critical level, any incoming damage to it will result in prolonged loss of consciousness, regardless of the current shock level;
+When receiving damage to the head, sounds will be muffled for a period of time, and the player will hear ringing in their ears;
+If a player's legs are damaged to a critical level, any subsequent damage will result in a broken leg;
+If the player's torso is damaged to a critical level, any subsequent damage to it will cause the player to be forced to crouch;
+If the player's arms are damaged to a critical level, then if the player is aiming - any subsequent damage to them will cause them to stop aiming and lower their hands;
+The duration the character can keep the weapon raised varies based on the extent of arm damage and the weight of the weapon;
+Hitting walls and creatures with your bare hands will cause damage to your hands;
+Falling from heights will result in leg damage;
+However, without further ado, here is a detailed description of the new damage system:
+https://github.com/ysaroka/InediaInfectedAI/wiki/FAQ#how-does-the-player-pain-system-work
+
+To be able to test these mechanics - the admin command \iiaiheal has been added:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#adminssteamids
+If you want to completely disable the pain system, you can do so using parameter "Zombies.PainToPlayerHandlerIsActive":
+    "PainToPlayerHandlerIsActive": {
+        "all": 0
+    },
+If you want to disable the pain system for the damage that players receive from other players but leave it for damage from infected and animals, disable the parameter "Zombies.PainToPlayerHandlerIsActive" for the pseudo-class "SurvivorBase":
+    "PainToPlayerHandlerIsActive": {
+        "all": 1,
+        "SurvivorBase": 0
+    },
+☑️ 2) Due to the implementation of a full-fledged damage system, the default parameters "Zombies.DamageToPlayerHealthMultiplier", "Zombies.DamageToPlayerShockMultiplier", "Zombies.DamageToPlayerInBlockHealthMultiplier", "Zombies.DamageToPlayerInBlockShockMultiplier", "Zombies.DamageToPlayerBleedingChancePercent", "Zombies.DamageToPlayerInBlockStaminaPercent" have been rebalanced once again.
+You can view the altered values in the default configuration file, which is always available here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+☑️ 3) I finally found a way to properly make infected attack the player in block, to be able to introduce various logic based on this damage. Up until this point, attacking in block (normal and shock damage) was zero, so for any kind of imitation of attacking in block, I had to introduce fixed damage that was independent of anything. Now, everything is taken into account for this attack: the type of strike, the character's armor, and so on. Consequently, I can implement the logic of inflicting pain in block, as well as the logic of configuring the attack through multipliers, similar to what is present in non-block attacks.
+Therefore, the old block attack configuration parameters that added fixed damage numbers have been removed and are no longer relevant, and instead, new ones have been added:
+Zombies.DamageToPlayerInBlockHealth => Zombies.DamageToPlayerInBlockHealthMultiplier
+Zombies.DamageToPlayerInBlockShock => Zombies.DamageToPlayerInBlockShockMultiplier
+
+Also now, if one of the following parameters is greater than zero:
+"Zombies.DamageToPlayerInBlockHealthMultiplier"
+"Zombies.DamageToPlayerInBlockShockMultiplier"
+"Zombies.DamageToPlayerInBlockStaminaPercent"
+"Zombies.DamageToPlayerInBlockBleedingChancePercent"
+... a hit on the block will be accompanied by animations typical of a regular strike.
+Naturally, if parameter "Zombies.DamageToPlayerHandlerIsActive" is disabled (as with those using PvZ and Syberia Project), these parameters will not work, and consequently, the block penetration mechanic will not function, including within the pain mechanic, i.e. infected will not be able to inflict limb damage if the player is blocking.
+The values of these parameters for different types of zombies can always be viewed in the default configuration file:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+☑️ 4) Now explosions cause injury to limbs of animals and infected, triggering bleeding in them as well.
+Accordingly, two parameters have been added to allow you to adjust the chance or disable both parameters if necessary:
+    Zombies.InjuryHandlerInjuryOnExplosiveDamageChancePercent:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesinjuryhandlerinjuryonexplosivedamagechancepercent
+    Zombies.BloodOnExplosiveDamageChancePercent:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesbloodonexplosivedamagechancepercent
+☑️ 5) The "Zombies.InjuryHandlerInjuredPainChanceMultiplier" parameters have been renamed to "Zombies.InjuryHandlerInjuredPainMultiplier" because pain is now applied whenever damage is dealt, not with a chance. The new parameters, on the other hand - affect pain damage, not chance.
+☑️ 6) The footstep noise irritation functionality of this mod has been disabled for NPCs, thereby slightly improving performance.
+☑️ 7) The error has been fixed where, during an attack by an infected, the character's armor did not affect the bleeding chance introduced by this mod.
+
+The file with the updated default configuration is always available here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+
+---------------- 🕓 🕗 🕛 ----------------
+    johnkind — 10.02.2024 12:40
+    InediaInfectedAI v1.6
+    The mod has been updated.
+---------------- 🕓 🕗 🕛 ----------------
+☑️ 1) Added badges for pain debuffs introduced by mechanic Zombies.PainToPlayer*.
+Also added parameter Players.ShowPainBadges, allowing to visually disable these badges while keeping the debuff mechanics intact.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playersshowpainbadges
+☑️ 2) Added parameter Zombies.PainToPlayerHandlerIsActive, allowing to completely disable the entire pain debuff mechanics:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiespaintoplayerhandlerisactive
+☑️ 3) Since the arm pain debuff didn't pose as significant issues as other debuffs, it has been expanded. Now, the arm pain debuff also halves the player's melee damage. Under the effect of painkillers, the melee damage slightly increases (up to 80%), and under the effect of morphine, it fully restores (100%).
+☑️ 4) Now, if the infected has damaged arms, the chance that they will inflict a pain debuff on the player when dealing damage is reduced. Accordingly, parameters have been added to adjust the reduction of this chance:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesinjuryhandlerinjuredonearmpainchancemultiplier
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesinjuryhandlerinjuredbotharmspainchancemultiplier
+☑️ 5) Now, if the infected has damaged arms, the chance that they will inflict a bleeding on the player when dealing damage is reduced. This will only work with the bleeding mechanics introduced by this mod (parameters Zombies.DamageToPlayerBleeding*) and will not work with the vanilla mechanics.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesinjuryhandlerinjuredonearmbleedingchancemultiplier
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesinjuryhandlerinjuredbotharmsbleedingchancemultiplier
+☑️ 6) Added parameter "Zombies.FriendlyNPC", allowing to specify survivor NPC character classes that infected will not attack. They will also not react to the irritants of these NPCs, such as shots, smells, noise, and light.
+An important condition is that the NPC class must be a descendant of "SurvivorBase".
+More details:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesfriendlynpc
+☑️ 7) Added the "AdminsSteamIds" parameter, allowing to specify the SteamIDs of administrators for whom the command to activate/deactivate god mode will be available, enabling them to make the player invisible to infected entities, including disabling the irritation mechanics introduced by this mod:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#adminssteamids
+☑️ 8) Now, when the player is hit by an infected, the camera shakes, allowing them to feel the impact force and adding immersion to the game.
+To configure this feature or disable it, a parameter "Zombies.CameraShakeToPlayerIntensity" has been added:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiescamerashaketoplayerintensity
+
+If one or both arms of the infected are damaged, the level of camera shake will decrease or disappear. However, the configuration for altering these levels is not yet provided to avoid overloading the infected damage system with parameters.
+☑️ 9) The keycard doors on the Banov map are excluded from door breaching and silent door opening functions in the default configuration.
+☑️ 10) Fixes:
+The error has been fixed, which prevented infected from killing non-player characters (such as AI or NPCs). It was caused by a conflict between the Inedia damage handler and the eAI and Expansion mod damage handlers. Therefore, it was decided to disable all "Zombies.DamageToPlayer*" functions for NPCs.
+Additionally, smell creation for NPCs has been disabled, which will slightly improve performance.
+Fixed a bug that caused infected in chase mode to attack car doors and players in the car from any distance if there was a player sitting in the back right seat of the car.
+The "body fall" irritant will no longer trigger if the infected dies in a crawling state.
+Additional checks have been added to the PlayerBase class to prevent errors "NULL pointer to instance" in situations where the character is controlled by AI or the character is an NPC.
+The hand shake mechanics didn't work correctly, the weapon would only shift up and to the right instead of shifting in all directions.
+☑️ 11) Rebalance default configuration parameters for more realism.
+The chance of the player experiencing bleeding when damaged by infected was quite unrealistic and was introduced due to the lack of other factors posing challenges to the player.
+Since there are now quite a few factors from the infected side, the chances of bleeding in the default configuration have been reduced:
+Zombies.DamageToPlayerBleedingChancePercent:
+    "all": 20 => 10
+    "police": 30 => 15
+    "medic": 30 => 15
+    "military": 50 => 20
+
+Default duration of pain debuffs (parameters "Zombies.PainToPlayer*Duration*") in the configuration has been changed from 30 seconds to 60 seconds, as in my tests, at a duration of 30 seconds, debuffs practically didn't pose a challenge to the player since they quickly wore off:
+Zombies.PainToPlayerArmsDurationSeconds:
+Zombies.PainToPlayerLegsDurationSeconds:
+Zombies.PainToPlayerTorsoDurationSeconds:
+    "all": 30 => 60
+
+The default chances of receiving pain debuffs (parameters "Zombies.PainToPlayer*Chance*") in the configuration have been changed:
+Zombies.PainToPlayerArmsChancePercent:
+Zombies.PainToPlayerLegsChancePercent:
+Zombies.PainToPlayerTorsoChancePercent:
+    "all": 30 => 20
+    "police": 30 => 30
+    "medic": 30 => 30
+    "military": 30 => 40
+
+Zombies.PainToPlayerArmsInBlockChancePercent:
+Zombies.PainToPlayerLegsInBlockChancePercent:
+Zombies.PainToPlayerTorsoInBlockChancePercent:
+    "all": 5 => 5
+    "police": 5 => 10
+    "medic": 5 => 10
+    "military": 5 => 15
+The stamina damage value ("Zombies.DamageToPlayerStaminaPercent") has been altered in the default configuration:
+Zombies.DamageToPlayerStaminaPercent:
+    "all": 30 => 15
+    "police": 30 => 20
+    "medic": 30 => 20
+    "military": 30 => 25
+
+You can view the altered parameters in the default configuration file, which is always available here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+
+---------------- 🕓 🕗 🕛 ----------------
+    johnkind — 03.02.2024 12:16
+    InediaInfectedAI v1.5
+    The mod has been updated.
+---------------- 🕓 🕗 🕛 ----------------
+☑️ 1) A limb injury system has been introduced (short video: https://www.youtube.com/watch?v=Li6EGTRbwwo).
+Now, when receiving damage to a limb, the infected will receive various debuffs.
+For example, damage to the arm will result in reduced attack and affect the chance to break doors and stun the player, while damage to the leg will affect movement speed and jump height.
+It is possible to specify which of the infected limbs will be damaged upon its spawn (parameters "Zombies.InjuryHandlerSpawnWithInjured*ChancePercent", default is 0% for all).
+There is also an option to set the time in seconds, after which the limb of the infected will completely regenerate after being damaged (parameters "Zombies.InjuryHandlerRestoreInjured(Arm|Leg)AfterSeconds", default is 0 seconds, i.e. never).
+Also a simplified leg injury system has been introduced for animals (movement speed limit on leg damage).
+More details about injury system can be found here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/FAQ#how-does-the-injury-and-debuff-system-work
+New parameters (Zombies.InjuryHandler*):
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesinjuryhandlerisactive
+
+⚠️ If you have mutants or bosses on your server, read this:
+https://github.com/ysaroka/InediaInfectedAI/wiki/FAQ#strong-bosses-and-mutants-on-my-server-get-attack-and-speed-debuffs-from-damage-how-can-i-adjust-this
+☑️ 2) The player now has a pain system linked to the damage caused by infected and is unrelated to any other type of damage.
+After receiving a blow to different body parts (arm, leg, torso), the player may get a pain shock, causing various debuffs.
+By default, the duration is set to 30 seconds for all types of debuffs. There is no point in setting these values too high, as the debuff states are not stored in the player's database, so the debuffs will expire after a player logs out and logs back in.
+The main idea is to create a short-term pain shock from infected attacks, which can pose challenges when dealing with a large number of infected, preventing actions such as escaping or jumping over a fence, for example.
+If the blow landed on the arm, the player experiences tremors, hindering aiming and slightly slowing movement speed. If the torso is damaged, stamina regeneration ceases, and movement speed is also slightly reduced. If the blow landed on the leg, the player undergoes a significant slowdown in movement speed and he loses the ability to jump over high obstacles.
+While the morphine effect is active, all debuffs are removed.
+While the adrenaline or painkiller effects are active, debuffs are significantly weakened. Thus, previously almost useless painkiller pills, which last for 5 minutes, now become more valuable.
+Parameters have been added to customize the chance of injuries for each body part when receiving regular damage and damage while blocking, as well as the duration of debuffs:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiespaintoplayerarmschancepercent
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiespaintoplayerarmsinblockchancepercent
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiespaintoplayerarmsdurationseconds
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiespaintoplayertorsochancepercent
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiespaintoplayertorsoinblockchancepercent
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiespaintoplayertorsodurationseconds
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiespaintoplayerlegschancepercent
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiespaintoplayerlegsinblockchancepercent
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiespaintoplayerlegsdurationseconds
+
+Detailed description of the player stun and pain system:
+https://github.com/ysaroka/InediaInfectedAI/wiki/FAQ#when-dealing-damage-the-infected-stun-the-player-and-apply-various-debuffs-how-can-i-configure-this
+☑️ 3) The mechanic preventing clustering of infected at one point has been added, thereby reducing the likelihood of game engine collisions, which could cause infected to scatter at high speed in different directions. This also fixes the problem that infected often get through texture into the wall of buildings they can't get into.
+Nevertheless, I cannot test all the nuances of this mechanic, and it may potentially cause specific issues for someone. Therefore, a parameter has been added to allow disabling it:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiespreventclustering
+
+In this short video, you can see what impact this parameter has:
+https://www.youtube.com/watch?v=zPKUPPXsqJw
+☑️ 4) Added parameters "Zombies.DamageToPlayerStaminaPercent" and "Zombies.DamageToPlayerInBlockStaminaPercent" allowing to specify the percentage of stamina damage inflicted by the infected to the player when the player is without block and in block. Default values are "30%" and "5%" respectively.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesdamagetoplayerstaminapercent
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesdamagetoplayerinblockstaminapercent
+☑️ 5) A new parameter, "Zombies.SearchSphereRadiusBurst", has been added, along with a change in the logic of the "Zombies.SearchSphereRadiusMax" parameter. Now, "Zombies.SearchSphereRadiusMax" no longer represents the radius at which the sphere bursts, instead, it serves as a constraint on the sphere's radius upon creation, similar in meaning to "Zombies.SearchSphereRadiusMin".
+In the "Zombies.SearchSphereRadiusBurst" parameter, you now specify the radius at which the sphere bursts. These adjustments were made to ensure that infected located far from the gunshot always have a certain amount of time to approach the source rather than losing interest immediately, as the sphere bursts right after creation.
+Consequently, the default value of "Zombies.SearchSphereRadiusMax" has been changed from 60 to 50 meters, while "Zombies.SearchSphereRadiusBurst" is set to 60 meters.
+
+Illustrating how it will work now with default settings:
+If an infected hears a gunshot at a distance of 180 meters, it creates a sphere with a radius of 180 * 0.3 = 54 meters.
+This sphere is capped from above at "Zombies.SearchSphereRadiusMax", meaning it is truncated to 50 meters.
+Afterward, it grows at a rate of 0.2 meters per second, and when it reaches a radius of 60 meters ("Zombies.SearchSphereRadiusBurst"), it bursts.
+The infected then transitions to a calm state and stops searching.
+Thus, no matter how far the infected is from the gunshot, it will always move towards the source of irritation for a minimum of (60 - 50) / 0.2 = 50 seconds.
+
+You can change the value of "Zombies.SearchSphereRadiusMax" in the old configuration from 60 to 50, or you can do nothing, and everything will function the same as it did in the old version of the mod.
+☑️ 6) Added parameter "Zombies.SmellsLossInterestAfterReactionForSeconds", allowing to disable the smell irritation mechanic for a specified number of seconds after the infected detects the player's smell.
+The purpose of this is described in the parameter description:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiessmellslossinterestafterreactionforseconds
+Default value is "0".
+☑️ 7) Added the parameter "Zombies.AttackAnimalsCustom", allowing customization of the relationships between infected and custom animals in cases where these animals are not inherited from any of the base classes or when it is necessary to configure them separately from the base class:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesattackanimalscustom
+☑️ 8) Not all doors of the "DNA Keycards", "Custom Keycards", and "KeyCard-Rooms" modifications were included in the "Zombies.BreakingDoorsRestrictedDoors" and "Players.QuietDoorOpeningMechanicRestrictedBuildings" parameters, and furthermore, some doors were incorrect.
+These door lists have been corrected in the default configuration file.
+⚠️ If you are using any of these modifications, you need to manually correct these door lists in the configuration, as they will not be updated automatically after the update.
+The corrected doors for parameters "BreakingDoorsRestrictedDoors", "QuietDoorOpeningMechanicRestrictedBuildings" can be found in the default configuration file, which is available at the following link:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+☑️ 9) Since there have been many debuffs when infected damage the player through blocking, the default shock values on block in config (parameter "Zombies.DamageToPlayerInBlockShock") have been reduced: "all": 20 => 10, "police" and "medic": 25 => 15, "military": 30 => 20.
+☑️ 10) The infected were prohibited from performing jumps when there was no surface beneath them, thereby eliminating periodically occurring situations of double jumps.
+The logic of the jumps themselves has been slightly corrected, raycasts for jump calculations are now performed not from the head of the infected but from an area behind the head, thereby excluding situations where the infected, penetrating the texture, would jump towards the player because they saw them.
+☑️ 11) Fixed the logic of "Zombies.DamageToZombieWeaponsMultipliers" multipliers. Now the multiplier for ranged weapons does not affect the damage done by ranged weapons with melee attacks (for example, a strike with the butt of the weapon or a grenade in hand).
+☑️ 12) Fixed a bug that caused infected in chase mode to sometimes start spinning quickly around a single point if the player was out of range.
+Sometimes, even in search mode, infected would also start spinning around one point in certain locations, unable to reach it. This occurs due to a poor navigation mesh, and the point the infected needs to reach is either deep underground or high above the ground. Therefore, a mechanic has been added to overcome such situations. In 99% of cases, if these points are not too deep or high, it will address this issue by changing the infected target during these moments of being stuck.
+☑️ 13) The error has been fixed, which allowed the infected to attack items that irritated them at a height they couldn't reach.
+☑️ 14) In DayZ version 1.24, "Bohemia Interactive" reduced the reaction radius of infected to gunshot from 180 to 110 meters.
+To address this, game configuration adjustments were made, restoring the value to the original 180 meters.
+Therefore, if you had modified this value in your config.cpp (whether increasing or decreasing it), keep in mind that "InediaInfectedAI" may overwrite it with its own configuration.
+To prevent this from happening, "InediaInfectedAI" must connect before your mod that modifies the configuration (but it doesn't always work 🤷‍♂️).
+
+---------------- 🕓 🕗 🕛 ----------------
+    johnkind — 19.01.2024 12:52
+    InediaInfectedAI v1.4
+    The mod has been updated.
+---------------- 🕓 🕗 🕛 ----------------
+1) A major refactoring aimed at performance optimization. Heavy methods will now be called much less frequently. Performance has also been optimized by reducing the number of raycasts and lowering the frequency of raycasts where frequent calls were unnecessary.
+2) The performance of the door breaking functionality has been significantly optimized. Infected no longer scan buildings within a 30-meter radius but instead acquire building information through raycasting a few meters ahead.
+
+The parameters "Zombies.BreakingDoorsBuildingSearchRangeMeters" and "Zombies.BreakingDoorsDoorSearchRangeMeters" are no longer necessary and have been removed.
+As a result, the probability of FPS drops for those who install the mod WITHOUT WIPE is much lower, as these parameters could impact performance. Without server wipe, this parameters could have taken random values, including very large ones.
+
+The logic for selecting a door to break through has also been changed. Now, it is not a randomly available door that is chosen, but rather the nearest available door.
+Infected now correctly break down doors in such houses, starting with the first one and then the second one, rather than the other way around:
+Изображение
+3) The new parameter "Zombies.SizeDamageScalingIsActive" has been added, allowing the activation of damage scaling based on the size of the infected, affecting the damage they deal and receive.
+Additionally, the parameter "Zombies.SizeBloodVolumeScalingIsActive" has been added, enabling the scaling of the infected's blood volume based on their size.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiessizedamagescalingisactive
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiessizebloodvolumescalingisactive
+4)
+Изображение
+Now, if the irritant is behind the infected (within a 90-degree zone), the infected will react worse to it. That is, for example, shining a light in the face and in the back of the infected will have a different effect.
+The same applies to sounds and other irritants. Now stealth killing will be even easier.
+Accordingly, the parameters "Zombies.ReactBehindVisualMultiplier" and "Zombies.ReactBehindNoiseMultiplier" have been added to allow you to specify a multiplier to the object's irritation radius if it is behind the infected, for visual and noise sources of irritation, respectively.
+The default multipliers are "0.2" for visual irritants and "0.6" for noise irritants.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactbehindvisualmultiplier-zombiesreactbehindnoisemultiplier
+5) A new parameter "Zombies.SmellsAllowStealthKills" has been added, allowing the disabling of the infected reaction to the player smell when they are nearby from behind the infected. This eliminates situations where the infected would respond to the smell of a player attempting a stealth kill, preventing them from completing it. Now, performing a stealth kill will be much easier.
+By default, the parameter is enabled.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiessmellsallowstealthkills
+6) The default values of the configuration parameters "Zombies.ReactFootstepsCrouchSprintDayNoise" and "Zombies.ReactFootstepsCrouchSprintNightNoise" have been changed to "0.7".
+Like a few changes above - this is done for balance and to increase the relevance of stealth killing mechanics, as in this modification it is extremely difficult to kill a few infected in some other way without involving all the infected in the neighborhood.
+7) A new "Type" field has been added for custom irritants. In old configs where type is not specified - default type "visual" will be used.
+More details (Where -> Type):
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiescustomirritants
+8) Now the infected when irritated - does not always turn and run towards the player, but sometimes waits for a while, and sometimes turns its head without turning its torso, listening, which is closer to vanilla mechanics and looks more realistic.
+9) Bug fixes:
+Fixed a bug with chemlight. Now it no longer irritates the infected when it is in the player's inventory, except for the special chemlight slot in the backpack.
+Fixed a bug that caused infected to sometimes freeze during attack on the player. This was related to the scream animation, which triggered during the attack and caused a conflict with attack animation. The scream functionality has also been improved, and the scream animation no longer interrupts until its completion.
+Fixed a false triggering of the logic for detecting the infected getting stuck. It was activating during door breaking, which could lead to a jump through the door in an attempt to exit the stuck state.
+Bohemian doors sound positions for buildings "land_rail_station_big" and "land_rail_station_small" have been fixed. Now the infected can break down these doors.
+Fixed an issue where the character, while aiming and moving in a crouched position, was producing the same sound as when running.
+Fixed bug that caused infected to not always react to explosions due to the exploding object being destroyed and disappearing.
+
+---------------------------------
+    johnkind — 03.01.2024 12:11
+    InediaInfectedAI v1.3
+    The mod has been updated.
+---------------------------------
+1) The following parameters now support specifying base parent classes, which should greatly simplify the configuration:
+Zombies.BreakingDoorsRestrictedDoors
+Zombies.DamageToZombieWeaponsMultipliers
+Zombies.CustomIrritants
+Zombies.AttackCarElementsMultiplierByCarClassId
+Players.CamoClothingVisibilityMultipliers
+Players.QuietDoorOpeningMechanicRestrictedBuildings
+Vehicles.Noise
+Vehicles.CollisionsSoundThreshold
+Vehicles.CollisionsSpeedReductionMultiplier
+
+Additionally, it no longer matters in which case the class name is entered.
+
+Due to the aforementioned change, many parameters in the default configuration have been simplified. Old configurations will still function, but they are slightly redundant. In any case, the current configuration is always available here, and you can always see what has changed in the above-mentioned parameters:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+
+This change required quite substantial changes to the configuration parsing logic. I've tried to test all possible cases, but there are no guarantees that I might have missed something, so updates-hotfixes are possible within the week.
+2) Added "NoiseMultiplierCrouch*" parameters, allowing you to set the multiplier for the vanilla noise emitted by the player when in a crouched state.
+Default values are set to "1".
+With these parameters, it is now much easier to perform stealth kills when a player is sneaking up on an infected while crouched.
+Earlier, achieving a stealth kill with the modification's default settings was practically impossible.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playersnoisemultipliercrouchday
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playersnoisemultipliercrouchnight
+3) The new parameter "Zombies.SpeedNoLimitsFromDistanceMeters" has been added. This parameter allows specifying the distance in meters between the player and the infected, within which there will be no speed restrictions for the infected.
+In this way, for those who prefer slow, walking infected, there is an opportunity to make them slightly more dangerous, as they approach the player, they will be able to accelerate from a certain distance.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesspeednolimitsfromdistancemeters
+4) A new parameter has been added, "Players.QuietDoorOpeningMechanicRestrictedBuildings".
+Now, those who had completely disabled the quiet door opening function due to the use of custom doors opened with key cards can exclude such doors using this parameter:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playersquietdooropeningmechanicrestrictedbuildings
+
+For the "Zombies.BreakingDoorsRestrictedDoors" and "Players.QuietDoorOpeningMechanicRestrictedBuildings" parameters, a list of doors from the modifications "DNA Keycards", "Custom Keycards", "KeyCard-Rooms" has been added.
+However, this support will not be automatically added to existing configurations. To incorporate it into your current configurations, simply copy the values of the "Zombies.BreakingDoorsRestrictedDoors" and "Players.QuietDoorOpeningMechanicRestrictedBuildings" parameters from the default configuration file to your configuration file:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+5) For "Zombies.ItemsAfterButchering", the option to specify the food stage has been added if the item is edible.
+More details (Where -> Foodstages):
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesitemsafterbutchering
+6) The default ranges of action of certain irritants have been slightly increased.
+Information on current ranges is available here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#more-information-about-zombiesreactirritant-parameters
+7) Error messages from the engine JSON parser have been added, as the parser does not accept float values in boolean parameters.
+This results in the online validator (jsonlint.com) not detecting the error, even though it exists.
+Now, the error will be displayed in the profiles/crash_*.log file.
+
+---------------------------------
+    johnkind — 17.11.2023 11:14
+    InediaInfectedAI v1.2
+    The mod has been updated.
+---------------------------------
+1) Due to the release of DayZ patch 1.23, the fixes to the navigation grid that I made for the northwest airport hangars have become obsolete and have been removed.
+
+Additionally, as the hangar objects themselves have been changed, my fixes to the door positions of the hangars also stopped working, and as a result, zombies no longer break down the hangar doors.
+
+As it turns out, Bohemia did fix the sound positions of the hangar doors, but unfortunately, they only fixed one door, leaving the other two still incorrect.
+
+Because of all this, I had to redo the work of adjusting the door positions for the hangars.
+2) The door detection functionality has been redone. Now infected will not kick a door if it is not on his navigation path. That is, it will only kick a door if its navigational path is through that door, ignoring doors next to which it passes and through which its path does not lie. Previously, the zombie would hit any door within its reach.
+Due to this - the infected will now quit kicking a door if the player has made a noise elsewhere and the infected's navigational path has changed.
+Also made some minor fixes to the logic of kicking a door, now the probability of a zombie's body part showing up on the other side of the door when he approaches is much lower.
+3) Now when falling, an infected can break their legs and even die if the height is high enough: https://www.youtube.com/watch?v=zejZi91WFLU
+Accordingly, the default value of the "Zombies.DownJumpHeightMax" parameter has been changed from "15" meters to "30" meters.
+The fall logic is calculated after the infected has made a jump, so in the case of infected flying as a result of glitches or collisions - they will not be damaged.
+Fall sounds have also been added depending on the type and height of the fall.
+To customize the impact of falls - new parameters have been added:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesfallhandlerisactive
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesfallhandlerlegbreakheightmin
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesfallhandlerlegbreakheightmax
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesfallhandlerdeathheightmin
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesfallhandlerdeathheightmax
+4) New sounds of doors hitting and breaking have been added.
+Also adjusted sounds for metal doors for numerous buildings, including the new sheds at the northwest airport.
+5) The ability to run in water in chase mode has been added to the infected.
+Before that, it was possible to abuse some waters, such as the waters of the sea, by running in there. Since the infected did not make their way through such waters.
+6) New parameters have been added to allow more flexibility in customizing jumps, affecting their frequency and chance:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesupjumpchancepercent
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesupjumpcooldownseconds
+7) Changed the logic of how the loss of interest of infected to unconscious players works:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesattackplayersunconscious
+8) I moved my logic from ZombieBase.HandleMindStateChange() to my own handler because some mods on custom zombies (for example, "dbo_creatures") completely override it, preventing any modification:
+https://github.com/ysaroka/InediaInfectedAI/issues/21
+9) YK_Radio support has been completely removed from the modification due to blocking. Accordingly, all parameters related to it - no longer make sense.
+
+---------------------------------
+    johnkind — 04.11.2023 11:13
+    InediaInfectedAI v1.1
+    The mod has been updated.
+---------------------------------
+1) Not many people know that zombies in the game are actually living humans infected with the virus, which means they can also bleed.
+A blood and bleeding system has been added. Infected can now bleed just like players.
+
+Important!
+If your server uses powerful mutants or bosses inherited from "ZombieBase" or "AnimalBase", read this:
+https://github.com/ysaroka/InediaInfectedAI/wiki/FAQ#strong-bosses-and-mutants-on-my-server-are-dying-from-bleeding-how-can-i-adjust-this
+If you don't configure them, they will die from bleeding like regular zombies/animals.
+
+Demonstration of the blood and bleeding system in a video:
+https://www.youtube.com/watch?v=7slen4aUZTw
+
+A detailed description of how the blood and bleeding system works:
+https://github.com/ysaroka/InediaInfectedAI/wiki/FAQ#how-does-the-blood-and-bleeding-system-work
+
+New parameters:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesbloodhandlerisactive
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesbloodvolumeml
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesbloodlossrateminml
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesbloodlossratemaxml
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesbloodlossrateregenml
+2) The extensive refactoring of the zombie irritants functionality. Almost everything is being redone from scratch for the second time, I hope nothing got broken.
+It was decided to completely abandon the "Timer" object. "Timer" used to trigger the irritant every 5 seconds, but it did so simultaneously for all active irritants, negatively impacting server performance. Those were the drawbacks of the "Timer" object, but now everything works without it.
+Now, each irritating item initiates its own internal irritation loop that is not connected to other items. This way, the load is distributed over time, and any performance issues when a large number of irritants are active simultaneously are eliminated.
+3) Given that now each irritant has its own cycle independent of the "ComponentEnergyManager," it has become possible to implement custom irritants. You can now add your own irritants, but with certain conditions.
+Support for the "SimpleMatch" modification is added by default. If you already have a configuration, this irritant will not be added automatically, as it is not the default value. You will need to add it manually. You can check the default configuration file to understand how to do it (the "Zombies.CustomIrritants" parameter):
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file
+More details here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiescustomirritants
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactcustomirritants
+4) Full support for the "YK Radio" modification has been added: https://steamcommunity.com/sharedfiles/filedetails/?id=2551386601
+If you use this mod, everything will work out of the box, and there is no need to configure anything.
+Now zombies will react and destroy playing YK Radio receivers.
+They will also attack a car if it has YK Car Radio playing.
+Please note that they will continue to damage the car as long as the car radio is playing or until they get used to the sound if the car is not moving. I've also added additional logic - in case of car battery destroyed from a collision or zombie strike, the music playback in the car is disabled.
+New parameters:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactykradionoise
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactykcarradionoise
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactanddestroyykradionoise
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactanddestroyykcarradionoise
+5) Now, when player inside vehicle is attacked, zombies can also attack the vehicle doors.
+The doors will now serve a protective function for the player.
+A new parameter "Zombies.AttackCarDoorDamagePercent" has been added to specify the percentage damage that vehicle doors receive when attacked by zombies.
+The parameter "Zombies.AttackCarDoorChancePercent" has also been added. This parameter allows you to specify the chance that when attacking the player, a zombie will damage a door, thus the door will act as a shield for the player, absorbing damage on their behalf.
+You can read the full description of the vehicle attack logic here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/FAQ#how-does-the-logic-of-vehicle-attack-work
+6) The following issues have been fixed:
+The issue has been fixed where important vehicle components couldn't receive any damage at all if any protective element had a damage multiplier set to "0":
+https://github.com/ysaroka/InediaInfectedAI/issues/20
+
+Fixed an errors that occurred on the client side:
+https://github.com/ysaroka/InediaInfectedAI/issues/16
+https://github.com/ysaroka/InediaInfectedAI/issues/18
+
+The issue of the player frequently contracting blood infection when attacked by zombies has been fixed:
+https://github.com/ysaroka/InediaInfectedAI/issues/17
+
+Compatibility issue with "DayZ-Expansion-AI" has been fixed:
+https://github.com/ysaroka/InediaInfectedAI/issues/19
+
+---------------------------------
+    johnkind — 23.10.2023 11:14
+    InediaInfectedAI v1.0
+    The mod has been updated.
+
+    In this update, there are minimal new additions, it is focused on enhancing and optimizing existing mechanics.
+---------------------------------
+1) The issue that was most likely causing a significant performance loss when irritating more than 50 zombies simultaneously has been fixed. It was related to the creation of vanilla noise, which was done to change a zombie's mode after irritation. Since 50+ zombies were creating 50+ sources of such noise, irritating each other, the server could briefly freeze. Now, if the first noise is created during irritation, the next noise source cannot be created closer than 10 meters from the first noise. This way, when irritating a massive horde of zombies, no more than 5-10 noise sources are created, and performance issues are no longer observed, tested with 300+ zombies simultaneously.
+2) Many issues in jumps logic have been fixed.
+Now zombies won't jump foolishly when chasing player in an open field with grass.
+Unnecessary delays after jumping off and onto obstacles have been removed.
+The logic of jumping onto obstacles has been improved - now zombies get their jump height based not on the player's position, but on the surface between the zombie and the player. This allows them to jump onto multiple obstacles to reach the player without being hindered by height restrictions.
+Improved logic for zombies stuck on obstacles, meaning enhanced problem-solving to find a way out of such situations and better pathfinding for descending from such obstacles (slightly more raycasts).
+Also, in case someone didn't know - if you're trying to climb a ladder and zombies jump at you, they will knock you off the ladder.
+
+3) Added zombie stuck handler. Now, if zombie in chase mode gets stuck for some reason, it will detect this and attempt to jump towards the player, trying to hit. This effectively eliminates many areas where players could abuse zombies, such as fountains in large cities or areas with poor navigation mesh.
+4) Now, when colliding with players or animals, the car also incurs damage.
+Additionally, bears can now attack both the car and the player inside it, while wolves cannot attack the car but can attack the player if they break the glass.
+The attack parameters for wolves and bears are configured in the respective "Zombies.AttackCar*" parameters, with the addition of classes for wolves or bears. This is done to simplify the settings and prevent unnecessary parameter duplication.
+
+The decision to use the same coefficient for both attack damage and collision damage of the car wasn't quite right, so two parameters were added for configuring attack damage to the car and collision damage separately:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesattackcarelementsglobaldamagemultiplier
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesattackcarelementsbycollisionsglobaldamagemultiplier
+
+Accordingly, the parameter "Zombies.AttackCarElementsByCollisionsPercentForOneHp" has been removed as it is no longer needed.
+For those who previously reduced the value of the parameter "Zombies.AttackCarElementsByCollisionsPercentForOneHp" due to excessive car damage, there is no need to worry, as during the refactoring of this functionality, a bug was discovered that was causing a 10-fold increase in car damage. It has now been fixed, and there should be no issues.
+If you already have a configuration file, I cannot automatically add car attack parameters for wolves and bears, as these are not default values. Therefore, you will need to add them manually:
+    Zombies: {
+        ...
+        "AttackCarElementsIsActive": {
+            "all": 1,
+            "Animal_CanisLupus_White": 0,
+            "Animal_CanisLupus_Grey": 0
+        },
+        "AttackCarElementsGlobalDamageMultiplier": {
+            "all": 1.0,
+            "Animal_UrsusArctos": 3.0
+        },
+        ...
+    }
+If you don't do this, it's not a big deal either - bears will attack the car with the strength of zombies, and wolves will attack car elements, which is unrealistic but not critical.
+
+Now the current default configuration file will always be available here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Default-configuration-file#inediainfectedaiconfigjson
+5) Now, the weapon multiplier, set by the "Zombies.DamageToZombieWeaponsMultipliers" parameter, affects the shock damage animation mechanics that zombies receive, including the "Zombies.DamageToZombieShockToStun*" parameters:
+https://github.com/ysaroka/InediaInfectedAI/issues/12
+New parameters for melee and ranged attacks have also been added, allowing you to set a threshold for shock damage, beyond which the heavy shock animation is triggered:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesdamagetozombieshocktostunlightheavyanimationthresholdmelee
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesdamagetozombieshocktostunlightheavyanimationthresholdrange
+6) Added the parameter "Zombies.DamageToZombieFromHotItemsHp," allowing to specify the HP damage that zombies receive when they attack hazardous objects (bonfire, fireworks). The default value is 10 HP. In vanilla game, zombies have 100 HP by default. In PvZ, zombies have 10000 HP by default.
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesdamagetozombiefromhotitemshp
+7) The suppression of footsteps sound inside buildings has been added:
+https://github.com/ysaroka/InediaInfectedAI/issues/15
+8) The audibility radius of sound during rain has been reworked. Regardless of the rain intensity, zombies will always hear at a distance of 10% from the original irritant radius. Now zombies will have a much harder time hearing sounds during rain.
+The formula for adjusting the audibility radius based on rain intensity, where the rainModifier varies from "0" (most intense rain) to "1" (no rain), is as follows:
+radius * 1/10 + radius * 9/10 * rainModifier.
+9) Many animation issues have been fixed. For instance, if a zombie gets irritated in CALM mode, the turning animation will now play correctly. Additionally, the scream animation has been fixed, previously, it rarely triggered.
+10) Added translation to all languages supported by the game.
+Translation was done by ChatGPT, so please don't judge too harshly 🙂
+11) The issue has been fixed. The "Zombies.SpeedLimitInSearchMode" parameter was not working:
+https://github.com/ysaroka/InediaInfectedAI/issues/14
+
+---------------------------------
+    johnkind — 11.10.2023 12:02
+    InediaInfectedAI
+    The mod has been updated.
+
+    Since this update marks the completion of all planned features, this will be the last frequent update, and subsequent updates will be released no more often than once a month, possibly even less frequently. Perhaps an experimental version will be introduced, but this is not certain.
+---------------------------------
+1) The main feature of this update. Seeing is believing - https://www.youtube.com/watch?v=n_j5j_OwEhE
+
+Jumping zombies now act more intelligently and can activate their attack animation while closing in on the player.
+
+Now, when jumping zombies collide with the player, they transfer their impulse to the player, effectively stunning them. Depending on which side the zombie collides with the player, a corresponding stunning animation is triggered. During the stun, the player cannot perform any actions for about a second. Additionally, when stunned, the player is pushed away, potentially resulting in a fall from their elevated position.
+
+Also, after stunning the player, there is a chance to inflict damage on them. By default, this chance is set to 50%. The probability can be adjusted in the following parameter:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesupjumpimpulsedamagechancepercent
+2) Now, when taking damage, including damage to the block, the player can get stunned. Here are more details:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesstuntoplayerchancepercent
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesstuntoplayerinblockchancepercent
+3) Added the ability to modify the default zombies stun mechanics when zombie taking damage. By default, this functionality is disabled.
+More details:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesdamagetozombieshocktostunhandlerisactive
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesdamagetozombieshocktostunthresholdmelee-zombiesdamagetozombieshocktostunthresholdrange
+4) The ability to specify damage multipliers for zombies for any weapon has been added.
+More details:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesdamagetozombieweaponsmultipliers
+5) The ability to set zombie detection multipliers for any type of clothing has been added.
+More details:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playerscamoclothingvisibilitymultipliers
+6) Added parameters that allow body searches only when the player performing the search has nothing in their hands. By default, they are disabled.
+More details:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiessearchbodyonlyemptyhands
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playerssearchbodyonlyemptyhands
+7) Added the ability to specify a range of sizes in which zombies will spawn. By default, it is disabled.
+More details:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiessizehandlerisactive
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiessizefrommultiplier-zombiessizetomultiplier
+8) Added "Zombies.RespawnInCrawlingChancePercent" parameter. Using this parameter, you can specify the percentage chance of spawning zombies in crawling state:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesrespawnincrawlingchancepercent
+9) Parameter "Zombies.ReactVanillaMindstateChange" has been added. This parameter allows configuring the maximum radius from the target within which zombies will still switch to search mode in response to any vanilla irritant.
+More details:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactvanillamindstatechange
+10) I believe I made the car damage from zombies too hardcore.
+Therefore, the value of the parameter "Zombies.AttackCarElementsByCollisionsPercentForOneHp" has been changed from '5' to '2'.
+Please adjust this value in the config if you feel that zombies are damaging your cars too quickly.
+This value will not be automatically changed in your config because '5' might have been suitable for someone.
+11) Fixed the error "Could not find zone 'LeftLeg'":
+https://github.com/ysaroka/InediaInfectedAI/issues/10
+12) Improved compatibility with the Syberia Project. The configuration initialization has been moved to another location since Syberia Project does not allow modifications to PlayerBase.EEInit().
+
+---------------------------------
+    johnkind — 05.10.2023 19:21
+    InediaInfectedAI
+    The mod has been updated.
+---------------------------------
+1) Now zombies react to the noise of other zombies falling.
+When you kill a zombie - the sound of its body falling irritates other zombies. The irritation radius is 30 meters, but the parameters "Zombies.ReactBodyfallNoise" is set to "0.5" by default for all types of zombies, so the actual irritation radius is 15 meters. The parameters "Zombies.ReactBodyfallBackstabNoise" is set to "0" by default for all types of zombies, which means that there will be no irritation when killing with backstab.
+Also, it's important to remember that if a zombie has reacted to a body fall once, it will not react to the same irritant for the next 4-8 minutes. This is done to prevent abuses related to constantly irritating zombies from a distance using a suppressed weapon.
+Parameters:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactbodyfalldaynoise
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactbodyfallnightnoise
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactbodyfallbackstabdaynoise
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactbodyfallbackstabnightnoise
+2) Added ability to configure whether zombies can attack different types of animals (Cow, Pig, Sheep, Goat, Wild boar, Deer, Roe deer):
+Parameters:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesattackanimalscow
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesattackanimalspig
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesattackanimalssheep
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesattackanimalsgoat
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesattackanimalswildboar
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesattackanimalsdeer
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesattackanimalsroedeer
+3) Added the ability to disable killing zombies using backstab. By default, the handler is disabled and vanilla mechanics are used so as not to cause conflicts with other mods, such as PvZ.
+Added parameters:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiescanbebackstabbedhandlerisactive
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiescanbebackstabbed
+4) Now, the distance at which noise of footsteps attracts zombies depends on the surface.
+Running on grass is 20% less audible, while on gravel, it's 20% more audible. The type of surface is determined by the characteristic sound in the game.
+5) Optimization of smells functionality, this should slightly increase server performance.
+New parameter "Players.SmellsCountOnMapLimit" has been added, allowing you to set a limit on the number of smells on the map.
+More details:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playerssmellscountonmaplimit
+6) Small fixes:
+The parameter "SoundInHouseMultiplier" now affects scream of zombies inside buildings + some issues in scream irritation logic have been fixed;
+Added metal door knocking sounds for "land_city_firestation" building;
+The sound of knocking on a metal door has been changed to a lower pitch.
+Players buildings now have the same effects on sounds and lights as regular buildings in the game. That is, the "LightInHouseMultiplier" and "SoundInHouseMultiplier" parameters will work in players buildings, also in player-built structures smells will not be generated;
+Slightly optimized method for calculating noise distance depending on rain, perhaps this will slightly improve server performance;
+Some issues with the logic of irritating zombies by sound inside buildings were detected and fixed;
+Fixed error that occurred when character without hat would vomit when attempting to search or cut up zombie corpse:
+https://github.com/ysaroka/InediaInfectedAI/issues/8
+Fixed error "NULL pointer to instance when trying to access variable 'm_Distance'"
+https://github.com/ysaroka/InediaInfectedAI/issues/9
+
+---------------------------------
+    johnkind — 01.10.2023 15:04
+    Small hotfixes
+---------------------------------
+1) Now using "QuietDoorOpeningMechanicIsActive = 0" you can completely disable silent door opening functionality.
+Disable it if there is any conflict with custom doors. For example, if doors that must be opened with key cards are opened using the silent opening function.
+2) Fixed doors positions for "land_rail_warehouse_small" building.
+3) Key storage directory has been renamed from "key" to "keys".
+
+---------------------------------
+    johnkind — 30.09.2023 13:30
+    InediaInfectedAI
+    The mod has been updated.
+---------------------------------
+1) Zombies now react to noise of doors after player opens or closes them.
+The noise distance after opening is 20 meters, and after closing - 30 meters.
+Players have been given the ability to open the door silently, as a result of which zombies won't hear anything, but this type of opening takes a little bit of time.
+You can disable or enable this mechanic, parameter "Players.QuietDoorOpeningMechanicIsActive":
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playersquietdooropeningmechanicisactive
+You can also configure the time in seconds that the player will spend silently opening or closing doors, parameter "Players.QuietDoorOpeningMechanicSeconds":
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playersquietdooropeningmechanicseconds
+
+You can configure zombies reaction distance to door noise for any type of zombie, day or night:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactdoorsdaynoise
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactdoorsnightnoise
+2) The "SaveConfigAfterInit" parameter has been added to the configuration file, allowing you to enable automatic addition of parameters that are not there to the config after the server starts.
+The parameter was added so that mod users do not have to manually add parameters after each update.
+This will not overwrite the parameters you have already configured, it will only add missing ones.
+The functionality has not been tested, use it at your own risk. I also recommend saving your current configuration file before use, just in case.
+By default, the parameter is disabled.
+To enable, set this parameter to "1" and restart the server. All parameters that are missing in the configuration file will appear in it.
+More details here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#saveconfigafterinit
+3) Ability to specify vehicle class "all" has been added to the "Zombies.AttackCarElementsMultiplierByCarClassId" parameter.
+
+---------------------------------
+    johnkind — 28.09.2023 12:39
+    InediaInfectedAI
+    The mod has been updated.
+---------------------------------
+1) !!! IMPORTANT !!!
+Parameter "Vehicles.ZombiesCollisionsSoundThreshold" has been renamed to "Vehicles.CollisionsSoundThreshold", as this setting now affects collision sounds not only when colliding with zombies, but also with animals and players.
+If you have configured this parameter for different vehicles, you will need to manually change its name for it to work.
+If you did not touch this parameter, then you do not need to do anything.
+2) Bad news for those who like to crush crowd of zombies with vehicle!
+Added "Vehicles.CollisionsSpeedReductionMultiplier" parameter.
+Using this parameter, you can influence the reduction in speed that the vehicle receives from collisions with zombies (as well as animals and players).
+You can add this parameters manually or recreate default config by deleting config file and restarting server.
+
+The speed reduction depends on the weight of the vehicle and the weight of the target and is calculated according to the law of conservation of momentum.
+Now it will be much more difficult to kill a crowd of zombies with a car, since the first zombies that are hit will dampen the momentum of the car.
+
+More details here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#vehiclescollisionsspeedreductionmultiplier
+
+Video showing how it now works:
+https://www.youtube.com/watch?v=WJggWQo-uaU
+3) Fixed an issue with case of building names accepted by "Zombies.BreakingDoorsRestrictedDoors" parameter.
+Now names can be entered in any case.
+
+---------------------------------
+    johnkind — 26.09.2023 12:39
+    InediaInfectedAI
+    The mod has been updated.
+---------------------------------
+1) Added parameter "Zombies.BreakingDoorsRestrictedDoors" where you can specify doors that zombies will ignore and will not knock down.
+You can add this parameters manually or recreate default config by deleting config file and restarting server.
+More information:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesbreakingdoorsrestricteddoors
+2) Added sounds for zombies and vehicles collisions, which should add a bit of immersiveness to the game, as well as alert unaware player that the vehicle is being damaged when colliding with a zombie.
+In "Vehicles.ZombiesCollisionsSoundThreshold" parameter you can set the vehicle speed threshold, after which there will be a loud collision sound, otherwise the sound will be quiet. These sounds can be disabled for any vehicle class. More details here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#vehicleszombiescollisionssoundthreshold
+3) Added ability to enable searching another player's corpses to view loot, parameter "Players.SearchBodyToViewCargo". By default, this parametr is disabled.
+More details:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playerssearchbodytoviewcargo
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#playerssearchbodytoviewcargoseconds
+4) Added translations into French, Polish, Spanish.
+5) Fixed minor issues and added some changes:
+Zombies will now ignore doors that are outside their line of sight ahead (90 degree angle);
+The logic of loss of interest in knocking down door has been fixed, now lockpick will work much better;
+Fixed an issue that caused zombies to jump through openings they cannot fit through, such as barred windows;
+Fixed minor issues with zombies switching to vanilla chase mode when they shouldn't have;
+
+---------------------------------
+    johnkind — 24.09.2023 12:51
+    InediaInfectedAI
+    The mod has been updated.
+---------------------------------
+1) Fixed problem where, with Zombies.DamageToZombieHandlerIsActive parameter enabled, zombie kills were not counted in main menu or in other mods that implement quest system.
+2) Added new parameter Zombies.DamageToPlayerBleedingHandlerIsActive, allowing you to switch between vanilla bleed handling mechanics and mechanics of this mod.
+You can add this parameters manually or recreate default config by deleting config file and restarting server.
+Accordingly, an issue has been fixed where the vanilla bleed handling mechanics and mechanics of this mod were working simultaneously and player could receive two bleeds at the same time.
+More details:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesdamagetoplayerbleedinghandlerisactive
+---
+Anyone who has ever had problems with zombie kill counts and had to disable player and zombie damage handlers - can now turn them back on, this problem has been fixed:
+Zombies.DamageToPlayerHandlerIsActive => 1
+Zombies.DamageToZombieHandlerIsActive => 1
+I did not install "DayZ-Expansion Quests", I tested the fix on functionality of counting zombie kills in main menu of the game, and also looked at code of "DayZ-Expansion Quests" and what methods it subscribes to, so everything should work.
+But I’m also waiting for feedback on "DayZ-Expansion Quests", since I don’t have time to install, understand and set up quests for killing zombies just to test it.
+
+---------------------------------
+    johnkind — 23.09.2023 15:36
+    InediaInfectedAI
+    The mod has been updated.
+---------------------------------
+1) The main change in this update. Infected AI has been completely redesigned, much has been rewritten from scratch. Perhaps something will break, since a lot of code has been redone. I hope for quick feedback in this case.
+
+Many problems that made it possible to abuse zombies have been fixed, for example - in most cases zombies will no longer get stuck in doors, knocking them out if they see the player. They will stop hitting the door and run to attack him.
+
+A target correcction system has been added, thanks to which zombies have become more attentive.
+They will no longer stupidly run past you without noticing you if you disturbed them and moved a short distance from a position of irritation. Most likely they will notice you.
+2) Added system for irritating zombies with noise of footsteps. Thanks to this, many zombie behavior bugs were fixed.
+For example, when zombie was in MINDSTATE_ALERTED mode, I had no way to somehow process its irritation and change search goal, so the zombie stopped responding to vanilla footstep noise.
+Now sound of footsteps activates them in any state in the same way as other irritants, such as flashlights, etc., and with highest priority.
+Now, to avoid problems, you will have to move really silently!
+This mechanic works in parallel with vanilla mechanic and disabling it will not disable the vanilla mechanic.
+New parameters have been added to customize how zombies react to footsteps.
+You can add this parameters manually or recreate default config by deleting config file and restarting server:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactfootstepsjogdaynoise
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactfootstepsjognightnoise
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactfootstepscrouchsprintdaynoise
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactfootstepscrouchsprintnightnoise
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactfootstepssprintdaynoise
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactfootstepssprintnightnoise
+3) All "Zombies.React*" parameters are now floating parameters, which will allow you to flexibly adjust sensitivity of zombies to various irritants.
+You can read more here:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#more-information-about-zombiesreactirritant-parameters
+4) Added ability to separately configure reaction of zombies to red light.
+You can add this parameters manually or recreate default config by deleting config file and restarting server.
+Parameters (default values for all = 1):
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactheadtorchredvisual
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactchemlightredvisual
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactanddestroyheadtorchredvisual
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesreactanddestroychemlightredvisual
+5) Added ability to configure chance of vomit and bloody hands when searching or butchering zombie body.
+You can add this parameters manually or recreate default config by deleting config file and restarting server.
+Parameters:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiessearchbodywithoutglovesbloodyhandschancepercent
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiessearchbodywithoutmaskvomitchancepercent
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesbutcheringwithoutglovesbloodyhandschancepercent
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesbutcheringwithoutmaskvomitchancepercent
+6) Added ability to limit maximum speed of zombie movement for search mode and chase mode.
+If vanilla mechanics are required or zombie speed is handled by another mod - disable parameter "Zombies.SpeedHandlerIsActive".
+You can add this parameters manually or recreate default config by deleting config file and restarting server.
+Parameters:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesspeedhandlerisactive
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesspeedlimitinsearchmode
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#zombiesspeedlimitinchasemode
+7) Default value for "LossInterestToIrritantAfterSeconds" parameter has been changed from 3 to 2 minutes in order to slightly smooth out situation when players abuse zombies by throwing irritating items into places they can't reach.
+You can change this parameter manually or recreate default config by deleting config file and restarting server.
+
+---------------------------------
+    johnkind — 16.09.2023 20:19
+    InediaInfectedAI
+    The mod has been updated.
+---------------------------------
+There have been many complaints that when attack of unconscious players is disabled, zombies still stay nearby for a very long time, killing the player when he comes to his senses.
+Therefore, now after the player loses consciousness, the zombies that were chasing him go into vanilla mode.
+
+---------------------------------
+    johnkind — 16.09.2023 16:43
+    InediaInfectedAI
+    The mod has been updated.
+---------------------------------
+Problem with FPS drop has been fixed, for which system for attracting zombies has been greatly reworked.
+In addition to fact that zombies now have a priority irritant, irritants among themselves also have priority.
+For example, zombie will first react to strong light source, and only then to weak one.
+If irritants have equal priority, then the zombie will follow first one to which it reacted, ignoring others, and will only begin to react to others after 10 seconds have passed since the priority irritant has been lost.
+
+---------------------------------
+    johnkind — 15.09.2023 12:36
+    InediaInfectedAI
+    The mod has been updated.
+---------------------------------
+1) Added configuration parameter "Vehicles.Noise" that allows you to configure radius of attracting zombies with engine noise for each vehicle separately.
+More details:
+https://github.com/ysaroka/InediaInfectedAI/wiki/Description#vehiclesnoise
+You can create "Vehicles.Noise" parameter manually (see default value below), or recreate default config by deleting config file and restarting the server.
+Default parameter value:
+...
+"Zombies": {
+    ...
+},
+"Players": {
+    ...
+},
+"Vehicles": {
+    "Noise": {
+        "all": {
+            "RpmMaxMeters": 120.0,
+            "RpmIdleMeters": 40.0
+        },
+        "Offroad_02": {
+            "RpmMaxMeters": 140.0,
+            "RpmIdleMeters": 50.0
+        },
+        "Truck_01_Covered": {
+            "RpmMaxMeters": 150.0,
+            "RpmIdleMeters": 60.0
+        },
+        "Truck_01_Covered_Blue": {
+            "RpmMaxMeters": 150.0,
+            "RpmIdleMeters": 60.0
+        },
+        "Truck_01_Covered_Orange": {
+            "RpmMaxMeters": 150.0,
+            "RpmIdleMeters": 60.0
+        }
+    }
+},
+...
+If "Vehicles" or "Noise" option is missing in configuration, the following parameters will be set for all vehicles:
+RpmIdleMeters = 40, RpmMaxMeters = 120
+2) Major reworking of zombie attraction functionality (more hardcore!):
+Frequency of response to irritants has been increased to once every 5 seconds. Now they will react to light, etc. much more often and more realistically;
+Zombie now has a priority irritant that it will follow, ignoring others, and will only begin to react to others after 10 seconds have passed since the priority irritant has been lost. This was done to eliminate situations where a zombie, caught between two or more irritants, began to run back and forth in place, torn between the irritants.
+3) Doors:
+Fixed Bohemia bugs with door sound positioning that prevented zombies from opening some doors, for example, in prison:
+https://www.youtube.com/watch?v=SaWJT4tOagc
+Fixed sounds of some metal doors that sounded like wood when hit.
+4) Small rebalance of default chance of knocking out and breaking doors. As tests have shown, with value of 20%, it took a very long time for a zombie to knock down door, and destruction generally happened extremely rarely.
+New values:
+BreakingDoorsOpenChancePercent = 25
+BreakingDoorsDestroyAfterOpenChancePercent = 25
+
+You can change this parameters manually or recreate default config by deleting config file and restarting the server.
+
+---------------------------------
+    johnkind — 13.09.2023 17:04
+    InediaInfectedAI
+    The mod has been updated.
+---------------------------------
+Disabled effect of bonfire geometry on pathgraph generation;
+In other words, players could make bonfire in narrow passage or in doorway, thereby blocking possibility of zombies coming through.
+The same could be done in vanilla mechanics.
+Now zombies can walk through bonfire.
+Moreover, they can extinguish bonfire with blows if corresponding option is enabled.
+
+Added zombie reaction to bonfire during the day (smoke, crackling fire, etc.);
+Added zombie reaction to smoke from house chimney;
+Zombies.ReactFireplaceDayVisual;
+Zombies.ReactAndDestroyFireplaceDayVisual;
+
+Minor difficulty rebalance.
+You can change this parameters manually or recreate default config by deleting config file and restarting the server:
+"ScreamAttractsZombiesInRadius" default value changed from 40 to 50 meters (according to my tests, 40 meters is not enough and zombies almost never attract help);
+"ScreamChancePercent" default value changed from 20% to 25% (it also seemed that scream worked quite rarely);
